@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../constants.dart';
 import '../HomeScreen.dart';
+import '../MainScreen.dart';
 import 'Signup.dart';
 
 class SignIn extends StatefulWidget {
@@ -135,7 +136,7 @@ class _SignInState extends State<SignIn> {
                         const SizedBox(height: 35),
                         /// LOGIN BUTTON
                         MaterialButton(
-                          onPressed: (){navigatorAndRemove(context, HomeScreen());},
+                          onPressed: (){navigatorAndRemove(context, MainScreen());},
                           height: 45,
                           minWidth: 240,
                           child: const Text('تسجيل الدخول', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),

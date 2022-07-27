@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jacobia/view/pages/Compettition/Compettition.dart';
+import 'package:jacobia/view/pages/Compettition/compettitionDetails.dart';
 import 'package:jacobia/view/pages/HomeScreen.dart';
 
 import 'view/components/themes/light_theme.dart';
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: lightTheme(context),
       //Here The Theme.
       themeMode: ThemeMode.light,
-      home: MainScreen(),
+      home: CompettitionDetails(),
     );
   }
 }

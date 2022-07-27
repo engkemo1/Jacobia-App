@@ -3,9 +3,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jacobia/view/pages/Comprttition.dart';
-
-
+import '../../../view/pages/Compettition/Compettition.dart';
 import '../../../view/pages/HomeScreen.dart';
 import 'BottomNavBarState.dart';
 

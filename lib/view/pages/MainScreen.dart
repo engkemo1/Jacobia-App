@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../constants.dart';
 import '../../view_model/database/BottomNavBarCubit/BottomNavBarState.dart';
 
-class MainScreen extends StatelessWidget {
+  class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
 
   @override

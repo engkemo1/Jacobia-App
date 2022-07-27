@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/index.dart';
 
-import '../../constants.dart';
-import '../components/ Widget/CompettionWidget.dart';
-import '../components/ Widget/FinishedRaces.dart';
-import '../components/ Widget/JoinedRaces.dart';
+import '../../../constants.dart';
+import '../../components/ Widget/CompettionWidget.dart';
+import '../../components/ Widget/FinishedRaces.dart';
+import '../../components/ Widget/JoinedRaces.dart';
 
 class Competition extends StatelessWidget {
   int endTime = DateTime
