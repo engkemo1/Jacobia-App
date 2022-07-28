@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:jacobia/view/components/component.dart';
 
 import '../../../constants.dart';
 import '../../components/ Widget/CompettionWidget.dart';
+import '../Quiz/quiz_screen.dart';
 
 class CompettitionDetails extends StatefulWidget {
   const CompettitionDetails({Key? key}) : super(key: key);
@@ -11,7 +13,7 @@ class CompettitionDetails extends StatefulWidget {
 }
 
 class _CompettitionDetailsState extends State<CompettitionDetails> {
-  int  _index=0 ;
+  int _index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -185,8 +187,50 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                       color: Colors.white),
                                 ),
                                 SizedBox(
-                                  height: 15,
-                                )
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        child: Divider(
+                                      thickness: 2,
+                                    ))
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text('price:  ',style: TextStyle(color: Colors.white),),
+                                        Text('200  '),
+                                        Image.asset(
+                                          'assets/images/coin.png',
+                                          width: 20,
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('Earning:  ',style: TextStyle(color: Colors.white)),
+                                        Text('1000  '),
+                                        Image.asset(
+                                          'assets/images/coin.png',
+                                          width: 20,
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 5,),
+                                Row(
+                                  children: [
+                                    Text('Questions: ',style: TextStyle(color: Colors.white),),
+                                    Text('20')
+                                  ],
+                                ),
+
                               ],
                             ),
                           ),
@@ -204,59 +248,116 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: 20, top: 10),
-                            child: Theme(
-                              
-                              data:  ThemeData(
-                                  accentColor: Colors.black12,
-                                  colorScheme: ColorScheme.light(
-                                      primary: Colors.black54
-                                  )
-                              ),
-                              child: Stepper(
-    currentStep: _index,
-    onStepCancel: () {
-    if (_index > 0) {
-    setState(() {
-    _index -= 1;
-    });
-    }
-    },
-    onStepContinue: () {
-    if (_index <= 0) {
-    setState(() {
-    _index += 1;
-    });
-    }
-    },
-    onStepTapped: (int index) {
-    setState(() {
-    _index = index;
-    });
-    },
-    steps: <Step>[
-    Step(
-    title: const Text('Step 1 '),
-    content: Container(
-    alignment: Alignment.centerLeft,
-    child: const Text('Join The Callenge')),
-    ),
-    const Step(
-    title: Text('Step 2'),
-    content: Text('Content for Step 2'),
-    ),
-       Step(
-        title: Text('Step 3'),
-        content: Text('Content for Step 2'),
-      ),
-    ],
-    ),
+                              padding: EdgeInsets.only(left: 20, top: 10),
+                              child: Theme(
+                                data: ThemeData(
+                                    accentColor: Colors.black12,
+                                    colorScheme: ColorScheme.light(
+                                        primary: Colors.black54)),
+                                child: Stepper(
+                                  currentStep: _index,
+                                  onStepCancel: () {
+                                    if (_index > 0) {
+                                      setState(() {
+                                        _index -= 1;
+                                      });
+                                    }
+                                  },
+                                  onStepContinue: () {
+                                    if (_index <= 0) {
+                                      setState(() {
+                                        _index += 1;
+                                      });
+                                    }
+                                  },
+                                  onStepTapped: (int index) {
+                                    setState(() {
+                                      _index = index;
+                                    });
+                                  },
+                                  steps: <Step>[
+                                    Step(
+                                      title: const Text('Step 1 '),
+                                      content: Container(
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  Text('Join The Callenge'),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text('200'),
+                                                      SizedBox(
+                                                        width: 3,
+                                                      ),
+                                                      Image.asset(
+                                                        'assets/images/coin.png',
+                                                        height: 20,
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                              ElevatedButton(
+                                                  onPressed: () {
 
-                            )
+                                                    showDialog<void>(
+                                                      context: context,
+                                                      barrierDismissible: false, // user must tap button!
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                                          title: const Text('Are you sure'),
+                                                          content: SingleChildScrollView(
+                                                            child: ListBody(
+                                                              children: const <Widget>[
+                                                                Text('Your Balance will reduce 200'),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                              child: const Text('Yes'),
+                                                              onPressed: () {
+                                                                navigatorAndRemove(context, QuizScreen());
+                                                              },
+                                                            ),
+                                                            TextButton(
+                                                              child: const Text('No'),
+                                                              onPressed: () {
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                            ),
 
-                          ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  child: Text('Join now'))
+                                            ],
+                                          )),
+                                    ),
+                                    const Step(
+                                      title: Text('Step 2'),
+                                      content: Text('Content for Step 2'),
+                                    ),
+                                    Step(
+                                      title: Text('Step 3'),
+                                      content: Text('Content for Step 2'),
+                                    ),
+                                  ],
+                                ),
+                              )),
                           Padding(
-                            padding: EdgeInsets.only(left: 20,top: 20,bottom: 10),
+                            padding:
+                                EdgeInsets.only(left: 20, top: 20, bottom: 10),
                             child: Text(
                               'More Challengs',
                               textAlign: TextAlign.start,
@@ -269,8 +370,9 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                             ),
                           ),
                           CompetitionWidget(),
-                          SizedBox(height: 20,)
-
+                          SizedBox(
+                            height: 20,
+                          )
                         ],
                       ),
                     ),

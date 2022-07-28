@@ -83,8 +83,15 @@ class CompetitionWidget extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 20,right: 20,bottom: 7),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Row(
+                  children: [
+                    Text('price: 200 ',style: TextStyle(color: Colors.white),),
+                    Image.asset('assets/images/coin.png',width: 20,)
+                  ],
+                )
+,
                 Text(
                   'الحصول على المركز االاول',
                   style: TextStyle(

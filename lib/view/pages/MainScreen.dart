@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jacobia/view_model/database/BottomNavBarCubit/BottomNavBarCubit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../constants.dart';
-import '../../view_model/database/BottomNavBarCubit/BottomNavBarState.dart';
+import '../../view_model/Cubit/BottomNavBarCubit/BottomNavBarCubit.dart';
+import '../../view_model/Cubit/BottomNavBarCubit/BottomNavBarState.dart';
 
   class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);

@@ -3,7 +3,13 @@ class Assets {
   Assets._();
 
   static const String images2 = 'assets/images/2.jfif';
+  static const String imagesBg = 'assets/images/bg.png';
+  static const String imagesBg3 = 'assets/images/bg3.svg';
   static const String imagesC = 'assets/images/c.jpg';
+  static const String imagesClock = 'assets/images/clock.svg';
+  static const String imagesCoin = 'assets/images/coin.png';
+  static const String imagesCoins = 'assets/images/coins.png';
+  static const String imagesKupa = 'assets/images/kupa.png';
   static const String imagesMan = 'assets/images/man.png';
   static const String imagesMan2 = 'assets/images/man2.jpg';
 

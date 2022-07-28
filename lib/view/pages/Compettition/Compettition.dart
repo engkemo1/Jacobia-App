@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/index.dart';
+import 'package:jacobia/view/components/component.dart';
 
 import '../../../constants.dart';
 import '../../components/ Widget/CompettionWidget.dart';
 import '../../components/ Widget/FinishedRaces.dart';
 import '../../components/ Widget/JoinedRaces.dart';
+import 'compettitionDetails.dart';
 
 class Competition extends StatelessWidget {
   int endTime = DateTime
@@ -160,7 +162,13 @@ class Competition extends StatelessWidget {
                             ],
                           ),
                         ),
-                        CompetitionWidget(),
+                        InkWell(
+                          child:
+                          CompetitionWidget(),
+                            onTap: (){
+                            navigator(context, CompettitionDetails());
+                            },
+                        ),
                         Padding(
                           padding:
                           EdgeInsets.only(left: 20, top: 20, right: 20),
