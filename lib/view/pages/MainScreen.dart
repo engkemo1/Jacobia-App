@@ -27,7 +27,9 @@ import '../../view_model/Cubit/BottomNavBarCubit/BottomNavBarState.dart';
             buildBottomNavigationBarItem(
                 Icon(FontAwesomeIcons.accusoft,color: secondaryColor,), Text('اعلانات',style: TextStyle(fontSize: 17,color: primaryColor,fontWeight: FontWeight.bold))),
             buildBottomNavigationBarItem(
-                Icon(Icons.settings_outlined,color: secondaryColor,), Text('اعدادات',style: TextStyle(fontSize: 17,color: primaryColor,fontWeight: FontWeight.bold)))
+                Icon(Icons.person_outline,color: secondaryColor,), Text('الملف الشخصي',style: TextStyle(fontSize: 17,color: primaryColor,fontWeight: FontWeight.bold))),
+            buildBottomNavigationBarItem(
+                Icon(FontAwesomeIcons.wallet,color: secondaryColor,), Text('المحفظه',style: TextStyle(fontSize: 17,color: primaryColor,fontWeight: FontWeight.bold),)),
           ],
           onTap: (index) {
             BottomNavBarCubit.get(context).change(index);

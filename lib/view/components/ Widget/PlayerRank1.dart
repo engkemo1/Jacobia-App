@@ -30,6 +30,8 @@ class PlayerRank1 extends StatelessWidget {
                 child: Text(
                   'kamal magdy',
                   style: TextStyle(
+                    fontFamily: 'roboto',
+                      fontWeight: FontWeight.normal,
                       fontSize: 13,
                       color: Colors.black,
                       decoration: TextDecoration.none),
@@ -60,6 +62,7 @@ class PlayerRank1 extends StatelessWidget {
                           'رياضيات',
                           style: TextStyle(
                               fontSize: 10,
+                              fontFamily: 'roboto',
                               color: Colors.black,
                               decoration:
                               TextDecoration.none),

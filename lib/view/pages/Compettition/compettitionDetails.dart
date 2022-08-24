@@ -6,7 +6,28 @@ import '../../components/ Widget/CompettionWidget.dart';
 import '../Quiz/quiz_screen.dart';
 
 class CompettitionDetails extends StatefulWidget {
-  const CompettitionDetails({Key? key}) : super(key: key);
+  final String desc;
+  final String image;
+
+  final int max;
+  final int min;
+  final int price;
+  final int profit;
+  final String name;
+  final List categories;
+  final int? r1,r2,r3,r4,r5,r6,r7,r8,r9,r10;
+
+
+  const CompettitionDetails(
+      {super.key,
+      required this.desc,
+      required this.max,
+      required this.min,
+      required this.price,
+      required this.profit,
+      required this.name,
+      required this.categories,
+      required this.image, required this.r1, required this.r2, required this.r3, required this.r4, required this.r5, required this.r6, required this.r7, required this.r8, required this.r9, required this.r10});
 
   @override
   State<CompettitionDetails> createState() => _CompettitionDetailsState();
@@ -20,118 +41,116 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            height: size.height,
-            width: size.width,
-            decoration: BoxDecoration(gradient: newVv),
-            child: Column(
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          // #signup_text
-                          Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.all(10),
-                            width: 150,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.white30),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  height: 45,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white70,
-                                  ),
-                                  child: Icon(
-                                    Icons.arrow_back_ios_new,
-                                    color: primaryColor,
-                                    size: 25,
-                                  ),
+        child: Container(
+          height: size.height,
+          width: size.width,
+          decoration: BoxDecoration(gradient: newVv),
+          child: Column(
+            children: [
+              Expanded(
+                  flex: 2,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // #signup_text
+                        Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(10),
+                          width: 150,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white30),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                height: 45,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.white70,
                                 ),
-                                SizedBox(
-                                  width: 5,
+                                child: Icon(
+                                  Icons.arrow_back_ios_new,
+                                  color: primaryColor,
+                                  size: 25,
                                 ),
-                                Text(
-                                  'LastStanding',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 17,
-                                      decoration: TextDecoration.none,
-                                      fontFamily: 'Arial'),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                widget.name,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 17,
+                                    decoration: TextDecoration.none,
+                                    fontFamily: 'Arial'),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Container(
+                                height: 45,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.white70,
                                 ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Container(
-                                  height: 45,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white70,
-                                  ),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    width: 30,
-                                    height: 30,
-                                    child: Stack(
-                                      alignment: AlignmentDirectional.center,
-                                      children: [
-                                        Icon(
-                                          Icons.notifications,
-                                          color: primaryColor,
-                                          size: 25,
-                                        ),
-                                        Container(
-                                          width: 30,
-                                          height: 30,
-                                          alignment: Alignment.topRight,
-                                          margin: EdgeInsets.only(top: 5),
-                                          child: Container(
-                                            width: 10,
-                                            height: 10,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Color(0xffc32c37),
-                                                border: Border.all(
-                                                    color: Colors.white,
-                                                    width: 1)),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(0.0),
-                                              child: Center(
-                                                child: Text(
-                                                  '1',
-                                                  style:
-                                                      TextStyle(fontSize: 10),
-                                                ),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: 30,
+                                  height: 30,
+                                  child: Stack(
+                                    alignment: AlignmentDirectional.center,
+                                    children: [
+                                      Icon(
+                                        Icons.notifications,
+                                        color: primaryColor,
+                                        size: 25,
+                                      ),
+                                      Container(
+                                        width: 30,
+                                        height: 30,
+                                        alignment: Alignment.topRight,
+                                        margin: EdgeInsets.only(top: 5),
+                                        child: Container(
+                                          width: 10,
+                                          height: 10,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color(0xffc32c37),
+                                              border: Border.all(
+                                                  color: Colors.white,
+                                                  width: 1)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(0.0),
+                                            child: Center(
+                                              child: Text(
+                                                '1',
+                                                style: TextStyle(fontSize: 10),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    )),
-                Expanded(
-                  flex: 8,
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  )),
+              Expanded(
+                flex: 8,
+                child: SingleChildScrollView(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     decoration: const BoxDecoration(
@@ -157,7 +176,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ClipRRect(
-                                  child: Image.asset('assets/images/c.jpg'),
+                                  child: Image.network(widget.image),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 SizedBox(
@@ -177,7 +196,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                   height: 10,
                                 ),
                                 Text(
-                                  'the act or process of competing : rivalry: such as. a : the effort of two or more parties acting independently to secure the business of a third party by offering the most favorable terms contractors in competition for the contract to build the new school',
+                                  widget.desc,
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       fontSize: 18,
@@ -203,34 +222,79 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                   children: [
                                     Row(
                                       children: [
-                                        Text('price:  ',style: TextStyle(color: Colors.white),),
-                                        Text('200  '),
+                                        Text(
+                                          'price:  ',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        Text('${widget.price} '),
                                         Image.asset(
                                           'assets/images/coin.png',
                                           width: 20,
                                         )
                                       ],
                                     ),
-                                    Row(
-                                      children: [
-                                        Text('Earning:  ',style: TextStyle(color: Colors.white)),
-                                        Text('1000  '),
-                                        Image.asset(
-                                          'assets/images/coin.png',
-                                          width: 20,
-                                        )
-                                      ],
-                                    ),
+                                    SizedBox(
+                                  width: 200,
+                                        child: ExpansionTile(title: Text('Ranks profit:',style: TextStyle(color: Colors.white),),children: [
+
+                                          Row
+                                            (
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Text('Rank1: ${widget.r1}'),
+                                              Text('Rank2: ${widget.r2}'),
+                                              Text('Rank3: ${widget.r3}'),
+
+                                            ],
+                                          ),
+
+                                          Row
+                                            (
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Text('Rank4: ${widget.r4}'),
+                                              Text('Rank5: ${widget.r5}'),
+                                              Text('Rank6: ${widget.r6}'),
+                                            ],
+                                          ),
+
+                                          Row
+                                            (
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Text('Rank7: ${widget.r7}'),
+                                              Text('Rank8: ${widget.r8}'),
+                                              Text('Rank9: ${widget.r9}'),
+                                            ],
+                                          ),
+                                          Row
+                                            (
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text('Rank10: ${widget.r10}'),
+
+
+                                            ],
+                                          ),
+
+
+                                        ],))
                                   ],
                                 ),
-                                SizedBox(height: 5,),
+                                SizedBox(
+                                  height: 5,
+                                ),
                                 Row(
                                   children: [
-                                    Text('Questions: ',style: TextStyle(color: Colors.white),),
-                                    Text('20')
+                                    Text(
+                                      'Categories: ',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    Row(
+                                      children:List.generate(widget.categories.length, (index) => Text('   ${widget.categories[index]}',style: TextStyle(fontWeight: FontWeight.bold),)) ,
+                                    )
                                   ],
                                 ),
-
                               ],
                             ),
                           ),
@@ -292,13 +356,13 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                                   ),
                                                   Row(
                                                     children: [
-                                                      Text('200'),
+                                                      Text(widget.price.toString()),
                                                       SizedBox(
                                                         width: 3,
                                                       ),
                                                       Image.asset(
                                                         'assets/images/coin.png',
-                                                        height: 20,
+                                                        height: 15,
                                                       )
                                                     ],
                                                   )
@@ -306,35 +370,49 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                               ),
                                               ElevatedButton(
                                                   onPressed: () {
-
                                                     showDialog<void>(
                                                       context: context,
-                                                      barrierDismissible: false, // user must tap button!
-                                                      builder: (BuildContext context) {
+                                                      barrierDismissible: false,
+                                                      // user must tap button!
+                                                      builder: (BuildContext
+                                                          context) {
                                                         return AlertDialog(
-                                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                                                          title: const Text('Are you sure'),
-                                                          content: SingleChildScrollView(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20)),
+                                                          title: const Text(
+                                                              'Are you sure'),
+                                                          content:
+                                                              SingleChildScrollView(
                                                             child: ListBody(
-                                                              children: const <Widget>[
-                                                                Text('Your Balance will reduce 200'),
+                                                              children: const <
+                                                                  Widget>[
+                                                                Text(
+                                                                    'Your Balance will reduce 200'),
                                                               ],
                                                             ),
                                                           ),
                                                           actions: <Widget>[
                                                             TextButton(
-                                                              child: const Text('Yes'),
+                                                              child: const Text(
+                                                                  'Yes'),
                                                               onPressed: () {
-                                                                navigatorAndRemove(context, QuizScreen());
+                                                                navigatorAndRemove(
+                                                                    context,
+                                                                    QuizScreen());
                                                               },
                                                             ),
                                                             TextButton(
-                                                              child: const Text('No'),
+                                                              child: const Text(
+                                                                  'No'),
                                                               onPressed: () {
-                                                                Navigator.of(context).pop();
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
                                                               },
                                                             ),
-
                                                           ],
                                                         );
                                                       },
@@ -344,14 +422,11 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                             ],
                                           )),
                                     ),
-                                    const Step(
+                                     Step(
                                       title: Text('Step 2'),
-                                      content: Text('Content for Step 2'),
+                                      content: Text('you should be in rank1 to 10 to win '),
                                     ),
-                                    Step(
-                                      title: Text('Step 3'),
-                                      content: Text('Content for Step 2'),
-                                    ),
+
                                   ],
                                 ),
                               )),
@@ -378,8 +453,8 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

@@ -31,7 +31,7 @@ void navigatorAndRemove(context, Widget widget) {
   );
 }
 
-void navigator(context, Widget widget) {
+void navigatorScreen(context, Widget widget) {
   Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
 }
 

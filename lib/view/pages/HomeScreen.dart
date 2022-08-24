@@ -53,6 +53,7 @@ class HomeScreen extends StatelessWidget {
                                   Text(
                                     'kamal magdy',
                                     style: TextStyle(
+                                      fontFamily: 'Arial',
                                         color: Colors.black,
                                         fontSize: 17,
                                         decoration: TextDecoration.none),
@@ -140,7 +141,7 @@ class HomeScreen extends StatelessWidget {
 
                         PlayerRank1(),
                         PlayerRank1(),
-                        SizedBox(height: 50,)
+                        SizedBox(height: 100,)
                         // Container(
                         //   margin: EdgeInsets.all(20),
                         //   padding: EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),

@@ -9,7 +9,7 @@ ThemeData lightTheme(context) {
   return ThemeData(
     textTheme: GoogleFonts.nunitoTextTheme(
       Theme.of(context).textTheme,
-    ).apply(bodyColor: Colors.black,fontFamily: 'roboto'),
+    ).apply(bodyColor: Colors.black,fontFamily: 'Arial',),
     primaryColor: primaryColor,
     scaffoldBackgroundColor: Colors.white,
     accentColor: primaryColor,

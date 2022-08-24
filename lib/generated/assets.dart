@@ -9,8 +9,10 @@ class Assets {
   static const String imagesClock = 'assets/images/clock.svg';
   static const String imagesCoin = 'assets/images/coin.png';
   static const String imagesCoins = 'assets/images/coins.png';
+  static const String imagesGreen = 'assets/images/green.png';
   static const String imagesKupa = 'assets/images/kupa.png';
   static const String imagesMan = 'assets/images/man.png';
   static const String imagesMan2 = 'assets/images/man2.jpg';
+  static const String imagesRed = 'assets/images/red.png';
 
 }

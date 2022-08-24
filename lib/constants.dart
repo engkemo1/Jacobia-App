@@ -40,31 +40,45 @@ const mainGradient = LinearGradient(
   end: Alignment(0.0, 1.0),
   colors: [Color(0xffFF6600), Color(0xffFF9752), Color(0xffFFC9A5)],
 );
+String? validateMobile(String value) {
+  String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+  RegExp regExp = new RegExp(patttern);
+  if (value.length == 0) {
+    return 'Please enter mobile number';
+  }
+  else if (!regExp.hasMatch(value)) {
+    return 'Please enter valid mobile number';
+  }
+  return null;
+}
 
+String? validateEmail(String? value) {
+  String pattern =
+      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+      r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+      r"{0,253}[a-zA-Z0-9])?)*$";
+  RegExp regex = RegExp(pattern);
+  if (value == null || value.isEmpty || !regex.hasMatch(value))
+    return 'Enter a valid email address';
+  else
+    return null ;}
+String? validatePassword(String value) {
+  RegExp regex =
+  RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+  if (value.isEmpty) {
+    return 'Please enter password';
+  } else {
+    if (!regex.hasMatch(value)) {
+      return 'Enter valid password';
+    } else {
+      return null;
+    }
+  }
+}
+String? validateName(String value) {
+  if (value.length < 3)
+    return 'Name must be more than 2 charater';
+  else
+    return null;
+}
 
-const Color grey = Color(0xfffafafa);
-const Color orange = Color(0xffff7920);
-const Color green = Color(0xff00BA00);
-const Color primaryGrey = Color(0xffCECECE);
-const Color interestGrey = Color(0xffF1F1F1);
-const Color interestTextGrey = Color(0xffCCCCCC);
-const Color categoryRequestGrey = Color(0xffF6F6F6);
-const Color textGrey = Color(0xff979797);
-Color greyShadow = Colors.black.withOpacity(0.3);
-const Color favContainerColor = Color(0xffEEEEEE);
-const Color cardColor = Color(0xffFAFAFA);
-const Color favColor = Color(0xffB4B4B4);
-const Color titleQuizColor = Color(0xffB1B1B1);
-const Color questionNumColor = Color(0xffCACACA);
-const Color certificateDividerColor = Color(0xffFF893B);
-const Color prerequisiteCardColor = Color(0xffFCFCFC);
-const Color dividerColor = Color(0xffDBDBDB);
-const Color dividerEF = Color(0xffEFEFEF);
-const Color indicatorColor = Color(0xffF7F7F7);
-const Color labelUnSelectedColor = Color(0xffB2B2B2);
-const Color red = Color(0xffFF4B4B);
-const Color courseCardColor = Color(0xffFFFFFF);
-const Color timeLineColor = Color(0xffE6E6E6);
-const Color grey70 = Color(0xff707070);
-const Color greyD1 = Color(0xffD1D1D1);
-const Color greyC2 = Color(0xffC2C2C2);
