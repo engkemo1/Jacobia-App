@@ -241,9 +241,9 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                             (
                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
-                                              Text('Rank1: ${widget.r1}'),
-                                              Text('Rank2: ${widget.r2}'),
-                                              Text('Rank3: ${widget.r3}'),
+                                              Text('Rank1: ${widget.r1}',style: TextStyle(fontSize: 12),),
+                                              Text('Rank2: ${widget.r2}',style: TextStyle(fontSize: 12)),
+                                              Text('Rank3: ${widget.r3}',style: TextStyle(fontSize: 12)),
 
                                             ],
                                           ),
@@ -252,9 +252,9 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                             (
                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
-                                              Text('Rank4: ${widget.r4}'),
-                                              Text('Rank5: ${widget.r5}'),
-                                              Text('Rank6: ${widget.r6}'),
+                                              Text('Rank4: ${widget.r4}',style: TextStyle(fontSize: 12)),
+                                              Text('Rank5: ${widget.r5}',style: TextStyle(fontSize: 12)),
+                                              Text('Rank6: ${widget.r6}',style: TextStyle(fontSize: 12)),
                                             ],
                                           ),
 
@@ -262,16 +262,16 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                             (
                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
-                                              Text('Rank7: ${widget.r7}'),
-                                              Text('Rank8: ${widget.r8}'),
-                                              Text('Rank9: ${widget.r9}'),
+                                              Text('Rank7: ${widget.r7}',style: TextStyle(fontSize: 12)),
+                                              Text('Rank8: ${widget.r8}',style: TextStyle(fontSize: 12)),
+                                              Text('Rank9: ${widget.r9}',style: TextStyle(fontSize: 12)),
                                             ],
                                           ),
                                           Row
                                             (
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              Text('Rank10: ${widget.r10}'),
+                                              Text('Rank10: ${widget.r10}',style: TextStyle(fontSize: 12)g),
 
 
                                             ],
