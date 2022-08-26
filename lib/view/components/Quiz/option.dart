@@ -4,8 +4,8 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import '../../../constants.dart';
 import '../../../view_model/question_controller.dart';
 
-class Option extends StatelessWidget {
-   Option({
+class Options extends StatelessWidget {
+   Options({
     required this.text,
     required this.index,
     required this.press,

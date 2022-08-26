@@ -271,7 +271,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                             (
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              Text('Rank10: ${widget.r10}',style: TextStyle(fontSize: 12)g),
+                                              Text('Rank10: ${widget.r10}',style: TextStyle(fontSize: 12)),
 
 
                                             ],
@@ -387,10 +387,10 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                                           content:
                                                               SingleChildScrollView(
                                                             child: ListBody(
-                                                              children: const <
+                                                              children:  <
                                                                   Widget>[
                                                                 Text(
-                                                                    'Your Balance will reduce 200'),
+                                                                    'Your Balance will reduce ${widget.price}'),
                                                               ],
                                                             ),
                                                           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jacobia/model/question%20model.dart';
 
 import '../../../view_model/question_controller.dart';
 import 'progress_bar.dart';
@@ -12,62 +13,83 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     // So that we have acccess our controller
     QuestionController _questionController = Get.put(QuestionController());
-    return Stack(
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height,
-          child:
-          Image.asset('assets/images/bg.png', fit: BoxFit.cover),
+    return FutureBuilder(
+      future: _questionController.getOptions(),
+      builder: (context, snapshot) {
+        print('////////////////////////////////////////////////////////////////////////////////');
+        List<trueFalse> o=[];
 
-        ),
-        SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding:
-                     EdgeInsets.symmetric(horizontal: 20),
-                child: ProgressBar(),
-              ),
-              SizedBox(height: 20),
-              Padding(
-                padding:
-                     EdgeInsets.symmetric(horizontal: 20),
-                child: Obx(
-                  () => Text.rich(
+        _questionController.TrueFalse.forEach((element) {
+          if(element.selected==['math,sports']){
+            o.add(element);
+          }
+        });
+        print(o);
+        print('////////////////////////////////////////////////////////////////////////////////');
 
-                    TextSpan(
-                      style: TextStyle(color: Colors.white),
-                      text:
-                          "Question ${_questionController.questionNumber.value}",
+        if(snapshot.connectionState==ConnectionState.waiting){
+          return Center(child: CircularProgressIndicator(color:Colors.greenAccent,),);
+        }else
 
-                      children: [
+        return
+          Stack(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              child:
+              Image.asset('assets/images/bg.png', fit: BoxFit.cover),
+
+            ),
+            SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding:
+                         EdgeInsets.symmetric(horizontal: 20),
+                    child: ProgressBar(),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding:
+                         EdgeInsets.symmetric(horizontal: 20),
+                    child: Obx(
+                      () => Text.rich(
+
                         TextSpan(
-                          text: "/${_questionController.questions.length}",
+                          style: TextStyle(color: Colors.white),
+                          text:
+                              "Question ${_questionController.questionNumber.value}",
 
+                          children: [
+                            TextSpan(
+                              text: "/${_questionController.questions.length}",
+
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
+                  Divider(thickness: 1.5),
+                  SizedBox(height: 20),
+                  Expanded(
+                    child: PageView.builder(
+                      // Block swipe to next qn
+                      physics: NeverScrollableScrollPhysics(),
+                      controller: _questionController.pageController,
+                      onPageChanged: _questionController.updateTheQnNum,
+                      itemCount: _questionController.questions.length,
+                      itemBuilder: (context, index) => QuestionCard(
+                            option: _questionController.options[index],tf: _questionController.TrueFalse[index],),
+                    ),
+                  ),
+                ],
               ),
-              Divider(thickness: 1.5),
-              SizedBox(height: 20),
-              Expanded(
-                child: PageView.builder(
-                  // Block swipe to next qn
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: _questionController.pageController,
-                  onPageChanged: _questionController.updateTheQnNum,
-                  itemCount: _questionController.questions.length,
-                  itemBuilder: (context, index) => QuestionCard(
-                      question: _questionController.questions[index]),
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
+            )
+          ],
+        );
+      }
     );
   }
 }

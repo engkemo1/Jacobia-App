@@ -1,25 +1,61 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
-import 'package:jacobia/view/pages/HomeScreen.dart';
-import 'package:jacobia/view/pages/MainScreen.dart';
 import 'package:jacobia/view/pages/Quiz/after_game_screen.dart';
 import 'package:jacobia/view/pages/Quiz/leaderboard_screen.dart';
-
 import '../Questions.dart';
-
-// We use get package for our state management
+import '../model/question model.dart';
 
 class QuestionController extends GetxController
     with SingleGetTickerProviderMixin {
+  List<Option> options = [];
+  List<trueFalse> TrueFalse = [];
+    List<trueFalse> allQuestionFilter = [];
+List filter= [];
+
+
+  getOptions() async {
+    var questions = FirebaseFirestore.instance
+        .collection('question')
+        .where('type', isEqualTo: 'options');
+
+    var question = await questions.get();
+
+    var categoriesSnapshot = question.docs.forEach((element) {
+      print(element.data().toString());
+      if(element['selected']==['math'])
+      options.add(Option.fromJson(element.data() as Map<String, dynamic>));
+    });
+    print(options.toString());
+    return categoriesSnapshot;
+  }
+
   // Lets animated our progress bar
+  getTrueFalse() async {
+    var questions = FirebaseFirestore.instance
+        .collection('question')
+        .where('type', isEqualTo: 'trueFalse');
+
+    var question = await questions.get();
+
+    var categoriesSnapshot = question.docs.forEach((element) {
+      print(element.data().toString());
+      TrueFalse.add(trueFalse.fromJson(element.data() as Map<String, dynamic>));
+    });
+    print(TrueFalse.toString());
+
+    return categoriesSnapshot;
+  }
 
   AnimationController? _animationController;
   Animation? _animation;
+
   // so that we can access our animation outside
   Animation? get animation => this._animation;
 
   PageController? _pageController;
+
   PageController? get pageController => this._pageController;
 
   List<Question> _questions = sample_data
@@ -31,27 +67,34 @@ class QuestionController extends GetxController
             answer: question['answer_index']),
       )
       .toList();
+
   List<Question> get questions => this._questions;
 
   bool _isAnswered = false;
+
   bool get isAnswered => this._isAnswered;
 
-  int ?_correctAns;
+  int? _correctAns;
+
   int? get correctAns => this._correctAns;
 
-   int? _selectedAns;
+  int? _selectedAns;
+
   int? get selectedAns => this._selectedAns;
 
   // for more about obs please check documentation
   final RxInt _questionNumber = 1.obs;
+
   RxInt get questionNumber => this._questionNumber;
 
   int _numOfCorrectAns = 0;
+
   int get numOfCorrectAns => this._numOfCorrectAns;
 
   // called immediately after the widget is allocated memory
   @override
   void onInit() {
+getOptions();
     // Our animation duration is 60 s
     // so our plan is to fill the progress bar within 60s
     _animationController =
@@ -85,7 +128,6 @@ class QuestionController extends GetxController
 
     if (_correctAns == _selectedAns) _numOfCorrectAns++;
 
-
     // It will stop the counter
     _animationController!.stop();
     update();
@@ -97,10 +139,10 @@ class QuestionController extends GetxController
   }
 
   void nextQuestion() {
-    if (_questionNumber.value != _questions.length) {
+    if (_questionNumber.value != options.length) {
       _isAnswered = false;
-      _pageController!.nextPage(
-          duration: Duration(milliseconds: 250), curve: Curves.ease);
+      _pageController!
+          .nextPage(duration: Duration(milliseconds: 250), curve: Curves.ease);
 
       // Reset the counter
       _animationController!.reset();
@@ -110,9 +152,9 @@ class QuestionController extends GetxController
       _animationController!.forward().whenComplete(nextQuestion);
     } else {
       // Get package provide us simple way to naviigate another page
-      if(numOfCorrectAns>=8){
-      Get.to(AfterGameScreen(score: numOfCorrectAns));}else{
-
+      if (numOfCorrectAns >= 8) {
+        Get.to(AfterGameScreen(score: numOfCorrectAns));
+      } else {
         Get.to(LeaderboardScreen());
       }
     }

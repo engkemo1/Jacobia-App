@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../Questions.dart';
 import '../../../constants.dart';
+import '../../../model/question model.dart';
 import '../../../view_model/question_controller.dart';
 import 'option.dart';
 
 class QuestionCard extends StatelessWidget {
 
-  final Question question;
+  final Option option;
 
-  const QuestionCard({super.key, required this.question});
+  final trueFalse tf;
+
+
+  const QuestionCard({ required this.option, required this.tf});
 
   @override
   Widget build(BuildContext context) {
+    List tfQ=['True','False'];
+    List optionsQ = [
+      option.option1.toString(),
+      option.option2.toString(),
+      option.option5.toString(),
+      option.option4.toString(),
+      option.option5.toString()
+    ];
+
     QuestionController _controller = Get.put(QuestionController());
     return Container(
       margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
@@ -24,18 +36,29 @@ class QuestionCard extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            question.question,style: TextStyle(color: Colors.white),
+            option.question.toString(), style: TextStyle(color: Colors.white),
           ),
           SizedBox(height: 20 / 2),
-          ...List.generate(
-            question.options.length,
-            (index) => Option(
-              index: index,
+          if (option.type.toString()=='options') ...List.generate(
+            5,
+                (index) =>
+                Options(
+                  index: index,
 
-              text: question.options[index],
+                  text: optionsQ[index],
 
-              press: () => _controller.checkAns(question, index),
-            ),
+                  press: () {},
+                ),
+          ) else ...List.generate(
+            2,
+                (index) =>
+                Options(
+                  index: index,
+
+                  text: tfQ[index],
+
+                  press: () {},
+                ),
           ),
         ],
       ),
