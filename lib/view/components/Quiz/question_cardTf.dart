@@ -5,24 +5,17 @@ import '../../../model/question model.dart';
 import '../../../view_model/question_controller.dart';
 import 'option.dart';
 
-class QuestionCard extends StatelessWidget {
-
-  final Option option;
+class QuestionCardTF extends StatelessWidget {
 
 
+  final trueFalse tf;
 
-   QuestionCard({ required this.option});
+
+  QuestionCardTF({  required this.tf,});
 
   @override
   Widget build(BuildContext context) {
     List tfQ=['True','False'];
-    List optionsQ = [
-      option.option1.toString(),
-      option.option2.toString(),
-      option.option5.toString(),
-      option.option4.toString(),
-      option.option5.toString()
-    ];
 
     QuestionController _controller = Get.put(QuestionController());
     return Container(
@@ -35,25 +28,20 @@ class QuestionCard extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            option.question.toString(), style: TextStyle(color: Colors.white),
+        tf.question.toString(), style: TextStyle(color: Colors.white),
           ),
           SizedBox(height: 20 / 2),
-
-          ...List.generate(
-           option.type=='options'? 5:2,
+         ...List.generate(
+            2,
                 (index) =>
                 Options(
                   index: index,
 
-                  text: option.type=='options'?optionsQ[index]:tfQ[index],
-                  press: () {_controller.checkAns(option, index);},
+                  text: tfQ[index],
+
+                  press: () {_controller.checkAnsTf(tf, index);},
                 ),
-          )
-
-
-
-
-
+          ),
         ],
       ),
     );

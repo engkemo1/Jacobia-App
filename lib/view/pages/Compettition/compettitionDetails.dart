@@ -1,33 +1,43 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:jacobia/view/components/component.dart';
-
+import 'package:get/get.dart';
+import 'package:jacobia/view_model/database/local/cache_helper.dart';
 import '../../../constants.dart';
-import '../../components/ Widget/CompettionWidget.dart';
-import '../Quiz/quiz_screen.dart';
 
 class CompettitionDetails extends StatefulWidget {
   final String desc;
   final String image;
-
+  final String docId;
   final int max;
   final int min;
   final int price;
   final int profit;
   final String name;
   final List categories;
-  final int? r1,r2,r3,r4,r5,r6,r7,r8,r9,r10;
+  final int? r1, r2, r3, r4, r5, r6, r7, r8, r9, r10;
 
-
-  const CompettitionDetails(
-      {super.key,
-      required this.desc,
-      required this.max,
-      required this.min,
-      required this.price,
-      required this.profit,
-      required this.name,
-      required this.categories,
-      required this.image, required this.r1, required this.r2, required this.r3, required this.r4, required this.r5, required this.r6, required this.r7, required this.r8, required this.r9, required this.r10});
+  const CompettitionDetails({
+    super.key,
+    required this.desc,
+    required this.max,
+    required this.min,
+    required this.price,
+    required this.profit,
+    required this.name,
+    required this.categories,
+    required this.image,
+    required this.r1,
+    required this.r2,
+    required this.r3,
+    required this.r4,
+    required this.r5,
+    required this.r6,
+    required this.r7,
+    required this.r8,
+    required this.r9,
+    required this.r10,
+    required this.docId,
+  });
 
   @override
   State<CompettitionDetails> createState() => _CompettitionDetailsState();
@@ -84,7 +94,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                 width: 5,
                               ),
                               Text(
-                                widget.name,
+                               CacheHelper.get(key: 'name')??'',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 17,
@@ -199,7 +209,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                   widget.desc,
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 14,
                                       fontFamily: 'Arial',
                                       fontWeight: FontWeight.normal,
                                       decoration: TextDecoration.none,
@@ -224,61 +234,99 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                       children: [
                                         Text(
                                           'price:  ',
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 17),
                                         ),
-                                        Text('${widget.price} '),
+                                        Text(
+                                          '${widget.price} ',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 13),
+                                        ),
                                         Image.asset(
                                           'assets/images/coin.png',
-                                          width: 20,
+                                          width: 15,
                                         )
                                       ],
                                     ),
                                     SizedBox(
-                                  width: 200,
-                                        child: ExpansionTile(title: Text('Ranks profit:',style: TextStyle(color: Colors.white),),children: [
-
-                                          Row
-                                            (
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text('Rank1: ${widget.r1}',style: TextStyle(fontSize: 12),),
-                                              Text('Rank2: ${widget.r2}',style: TextStyle(fontSize: 12)),
-                                              Text('Rank3: ${widget.r3}',style: TextStyle(fontSize: 12)),
-
-                                            ],
+                                        width: 200,
+                                        child: ExpansionTile(
+                                          title: Text(
+                                            'Ranks profit:',
+                                            style:
+                                                TextStyle(color: Colors.white),
                                           ),
-
-                                          Row
-                                            (
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text('Rank4: ${widget.r4}',style: TextStyle(fontSize: 12)),
-                                              Text('Rank5: ${widget.r5}',style: TextStyle(fontSize: 12)),
-                                              Text('Rank6: ${widget.r6}',style: TextStyle(fontSize: 12)),
-                                            ],
-                                          ),
-
-                                          Row
-                                            (
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text('Rank7: ${widget.r7}',style: TextStyle(fontSize: 12)),
-                                              Text('Rank8: ${widget.r8}',style: TextStyle(fontSize: 12)),
-                                              Text('Rank9: ${widget.r9}',style: TextStyle(fontSize: 12)),
-                                            ],
-                                          ),
-                                          Row
-                                            (
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Text('Rank10: ${widget.r10}',style: TextStyle(fontSize: 12)),
-
-
-                                            ],
-                                          ),
-
-
-                                        ],))
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text(
+                                                  'Rank1: ${widget.r1}',
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.white),
+                                                ),
+                                                Text('Rank2: ${widget.r2}',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.white)),
+                                                Text('Rank3: ${widget.r3}',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.white)),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text('Rank4: ${widget.r4}',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.white)),
+                                                Text('Rank5: ${widget.r5}',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.white)),
+                                                Text('Rank6: ${widget.r6}',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.white)),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text('Rank7: ${widget.r7}',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.white)),
+                                                Text('Rank8: ${widget.r8}',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.white)),
+                                                Text('Rank9: ${widget.r9}',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.white)),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text('Rank10: ${widget.r10}',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.white)),
+                                              ],
+                                            ),
+                                          ],
+                                        ))
                                   ],
                                 ),
                                 SizedBox(
@@ -288,10 +336,17 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                   children: [
                                     Text(
                                       'Categories: ',
-                                      style: TextStyle(color: Colors.white),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 17),
                                     ),
                                     Row(
-                                      children:List.generate(widget.categories.length, (index) => Text('   ${widget.categories[index]}',style: TextStyle(fontWeight: FontWeight.bold),)) ,
+                                      children: List.generate(
+                                          widget.categories.length,
+                                          (index) => Text(
+                                                '   ${widget.categories[index]}',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              )),
                                     )
                                   ],
                                 ),
@@ -315,9 +370,10 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                               padding: EdgeInsets.only(left: 20, top: 10),
                               child: Theme(
                                 data: ThemeData(
-                                    accentColor: Colors.black12,
+                                    accentColor: Colors.transparent,
                                     colorScheme: ColorScheme.light(
-                                        primary: Colors.black54)),
+                                      primary: Colors.transparent,
+                                    )),
                                 child: Stepper(
                                   currentStep: _index,
                                   onStepCancel: () {
@@ -348,103 +404,106 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Column(
+                                              Row(
                                                 children: [
                                                   Text('Join The Callenge'),
                                                   SizedBox(
-                                                    height: 5,
+                                                    width: 5,
                                                   ),
-                                                  Row(
-                                                    children: [
-                                                      Text(widget.price.toString()),
-                                                      SizedBox(
-                                                        width: 3,
-                                                      ),
-                                                      Image.asset(
-                                                        'assets/images/coin.png',
-                                                        height: 15,
-                                                      )
-                                                    ],
+                                                  Text(widget.price.toString()),
+                                                  SizedBox(
+                                                    width: 3,
+                                                  ),
+                                                  Image.asset(
+                                                    'assets/images/coin.png',
+                                                    height: 15,
                                                   )
                                                 ],
                                               ),
-                                              ElevatedButton(
-                                                  onPressed: () {
-                                                    showDialog<void>(
-                                                      context: context,
-                                                      barrierDismissible: false,
-                                                      // user must tap button!
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return AlertDialog(
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          20)),
-                                                          title: const Text(
-                                                              'Are you sure'),
-                                                          content:
-                                                              SingleChildScrollView(
-                                                            child: ListBody(
-                                                              children:  <
-                                                                  Widget>[
-                                                                Text(
-                                                                    'Your Balance will reduce ${widget.price}'),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          actions: <Widget>[
-                                                            TextButton(
-                                                              child: const Text(
-                                                                  'Yes'),
-                                                              onPressed: () {
-                                                                navigatorAndRemove(
-                                                                    context,
-                                                                    QuizScreen());
-                                                              },
-                                                            ),
-                                                            TextButton(
-                                                              child: const Text(
-                                                                  'No'),
-                                                              onPressed: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              },
-                                                            ),
-                                                          ],
-                                                        );
-                                                      },
-                                                    );
-                                                  },
-                                                  child: Text('Join now'))
                                             ],
                                           )),
                                     ),
-                                     Step(
+                                    Step(
                                       title: Text('Step 2'),
-                                      content: Text('you should be in rank1 to 10 to win '),
+                                      content: Text(
+                                          'you should be in rank1 to 10 to win '),
                                     ),
-
                                   ],
                                 ),
                               )),
-                          Padding(
-                            padding:
-                                EdgeInsets.only(left: 20, top: 20, bottom: 10),
-                            child: Text(
-                              'More Challengs',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: 'Arial',
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                  color: Colors.white),
-                            ),
+                          Center(
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.black26,
+                                    maximumSize: Size(200, 100),
+                                    fixedSize: Size(160, 30),
+                                    minimumSize: Size(20, 40)),
+                                onPressed: () {
+                                  showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        title: const Text('Are you sure'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text(
+                                                  'Your Balance will reduce ${widget.price}'),
+                                            ],
+                                          ),
+                                        ),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: const Text('Yes'),
+                                            onPressed: () {
+                                              FirebaseFirestore.instance
+                                                  .collection('users')
+                                                  .doc(CacheHelper.get(
+                                                      key: 'uid'))
+                                                  .collection('enrolled_quiz').doc("${widget.docId}")
+                                                  .set({
+                                                'id': widget.docId
+                                              }).then((value) {
+                                                Navigator.pop(context);
+
+                                              })  ;
+                                              Get.defaultDialog(content: Text('Enrolled'),title: '');
+
+                                            },
+                                          ),
+                                          TextButton(
+                                            child: const Text('No'),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Text('Enroll')),
                           ),
-                          CompetitionWidget(),
+                          // Padding(
+                          //   padding:
+                          //       EdgeInsets.only(left: 20, top: 20, bottom: 10),
+                          //   child: Text(
+                          //     'More Challengs',
+                          //     textAlign: TextAlign.start,
+                          //     style: TextStyle(
+                          //         fontSize: 18,
+                          //         fontFamily: 'Arial',
+                          //         fontWeight: FontWeight.normal,
+                          //         decoration: TextDecoration.none,
+                          //         color: Colors.white),
+                          //   ),
+                          // ),
+                          // CompetitionWidget(),
                           SizedBox(
                             height: 20,
                           )

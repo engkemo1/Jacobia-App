@@ -11,24 +11,33 @@ class QuestionController extends GetxController
     with SingleGetTickerProviderMixin {
   List<Option> options = [];
   List<trueFalse> TrueFalse = [];
-    List<trueFalse> allQuestionFilter = [];
-List filter= [];
+
+  var Q = [];
+
+  getQuestions() async {
+    var questions = FirebaseFirestore.instance.collection('question');
 
 
-  getOptions() async {
-    var questions = FirebaseFirestore.instance
-        .collection('question')
-        .where('type', isEqualTo: 'options');
 
     var question = await questions.get();
 
-    var categoriesSnapshot = question.docs.forEach((element) {
-      print(element.data().toString());
-      if(element['selected']==['math'])
+    var optionsSnapshot = question.docs.forEach((element) {
       options.add(Option.fromJson(element.data() as Map<String, dynamic>));
     });
-    print(options.toString());
-    return categoriesSnapshot;
+
+    print(options);
+    return optionsSnapshot;
+  }
+
+  getAll() async {
+    var questions = FirebaseFirestore.instance.collection('question');
+    var question = await questions.get();
+    question.docs.forEach((element) {
+      Q.add(element);
+    });
+    print(Q.length);
+
+    return Q;
   }
 
   // Lets animated our progress bar
@@ -39,13 +48,13 @@ List filter= [];
 
     var question = await questions.get();
 
-    var categoriesSnapshot = question.docs.forEach((element) {
-      print(element.data().toString());
+    var OptionsSnapshot = question.docs.forEach((element) {
       TrueFalse.add(trueFalse.fromJson(element.data() as Map<String, dynamic>));
     });
+
     print(TrueFalse.toString());
 
-    return categoriesSnapshot;
+    return OptionsSnapshot;
   }
 
   AnimationController? _animationController;
@@ -94,7 +103,9 @@ List filter= [];
   // called immediately after the widget is allocated memory
   @override
   void onInit() {
-getOptions();
+    getAll();
+    getTrueFalse();
+    getQuestions();
     // Our animation duration is 60 s
     // so our plan is to fill the progress bar within 60s
     _animationController =
@@ -120,7 +131,25 @@ getOptions();
     _pageController!.dispose();
   }
 
-  void checkAns(Question question, int selectedIndex) {
+  void checkAns(Option question, int selectedIndex) {
+    // because once user press any option then it will run
+    _isAnswered = true;
+    _correctAns = question.answer;
+    _selectedAns = selectedIndex;
+
+    if (_correctAns == _selectedAns) _numOfCorrectAns++;
+
+    // It will stop the counter
+    _animationController!.stop();
+    update();
+
+    // Once user select an ans after 3s it will go to the next qn
+    Future.delayed(Duration(seconds: 3), () {
+      nextQuestion();
+    });
+  }
+
+  void checkAnsTf(trueFalse question, int selectedIndex) {
     // because once user press any option then it will run
     _isAnswered = true;
     _correctAns = question.answer;
@@ -139,7 +168,7 @@ getOptions();
   }
 
   void nextQuestion() {
-    if (_questionNumber.value != options.length) {
+    if (_questionNumber.value != Q.length) {
       _isAnswered = false;
       _pageController!
           .nextPage(duration: Duration(milliseconds: 250), curve: Curves.ease);

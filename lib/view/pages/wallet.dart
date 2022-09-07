@@ -1,8 +1,11 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-
+import 'package:jacobia/view_model/CodeGetx.dart';
 import '../../constants.dart';
 import '../../model/card/card.dart';
+import '../../view_model/database/local/cache_helper.dart';
 import '../components/ Widget/card.dart';
 import '../components/animation.dart';
 
@@ -11,11 +14,19 @@ class Wallet extends StatefulWidget {
   State<Wallet> createState() => _WalletState();
 }
 
+var codeController = TextEditingController();
+var user = FirebaseFirestore
+    .instance
+    .collection('users')
+    .doc(CacheHelper.get(
+    key: 'uid'));
+
 class _WalletState extends State<Wallet> {
   @override
   Widget build(BuildContext context) {
     var we = MediaQuery.of(context).size.width;
     var he = MediaQuery.of(context).size.height;
+    var code = Get.put(CodesGetX());
 
     return Scaffold(
       body: Container(
@@ -52,20 +63,24 @@ class _WalletState extends State<Wallet> {
                             SizedBox(
                               width: 10,
                             ),
-                            Column(
-                              children: [
-                                Text(
-                                  'kamal magdy',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 17,
-                                      decoration: TextDecoration.none),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                              ],
-                            ),
+                            Builder(builder: (context) {
+                              return Column(
+                                children: [
+                                  Text(
+                                    CacheHelper.get(key: 'name') == null
+                                        ? ''
+                                        : CacheHelper.get(key: 'name'),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 17,
+                                        decoration: TextDecoration.none),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                ],
+                              );
+                            }),
                             SizedBox(
                               width: 10,
                             ),
@@ -131,184 +146,242 @@ class _WalletState extends State<Wallet> {
                         topLeft: Radius.circular(50),
                         topRight: Radius.circular(50))),
                 child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 80,
-                      ),
-                      // Icons custom button //
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          SizedBox(
-                            height: he * 0.05,
-                          ),
-                          iconswidget(
-                              title: "ايداع",
-                              child: IconButton(
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          titlePadding: EdgeInsets.all(0),
-                                          title: Align(
-                                            alignment: Alignment.topRight,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(0),
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  icon: Icon(Icons.close)),
+                  child: GetBuilder(
+                    init: code,
+                    builder: (_) => Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const SizedBox(
+                          height: 80,
+                        ),
+                        // Icons custom button //
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            SizedBox(
+                              height: he * 0.05,
+                            ),
+                            iconswidget(
+                                title: "ايداع",
+                                color: const Color(0xFF411C2E),
+                                delayanimation: 1.7,
+                                child: IconButton(
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            titlePadding: EdgeInsets.all(0),
+                                            title: Align(
+                                              alignment: Alignment.topRight,
+                                              child: Padding(
+                                                padding: EdgeInsets.all(0),
+                                                child: IconButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    icon: Icon(Icons.close)),
+                                              ),
                                             ),
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                          content: Container(
-                                            height: 200,
-                                            width: 220,
-                                            decoration: BoxDecoration(),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  "ادخل الكود عشان تحصل على الشحن",
-                                                  style: TextStyle(
-                                                      fontFamily: 'Roboto',
-                                                      color: Colors.black,
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                                SizedBox(
-                                                  height: 20,
-                                                ),
-                                                Container(
-                                                  width: 247.0,
-                                                  height: 45.0,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                    color: Colors.black12,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            content: Container(
+                                              height: 200,
+                                              width: 220,
+                                              decoration: BoxDecoration(),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  const Text(
+                                                    "ادخل الكود عشان تحصل على الشحن",
+                                                    style: TextStyle(
+                                                        fontFamily: 'Roboto',
+                                                        color: Colors.black,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                    textAlign: TextAlign.center,
                                                   ),
-                                                  child: TextFormField(
-                                                    decoration: InputDecoration(
-                                                      contentPadding:
-                                                          EdgeInsets.all(15),
-                                                      enabledBorder:
-                                                          InputBorder.none,
-                                                      hintText: 'xxxxxxx',
+                                                  const SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  Container(
+                                                    width: 247.0,
+                                                    height: 45.0,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      color: Colors.black12,
+                                                    ),
+                                                    child: TextFormField(
+                                                      controller:
+                                                          codeController,
+                                                      decoration:
+                                                          const InputDecoration(
+                                                        contentPadding:
+                                                            EdgeInsets.all(15),
+                                                        enabledBorder:
+                                                            InputBorder.none,
+                                                        hintText: 'xxxxxxx',
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  height: 30,
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {},
-                                                  child: Container(
-                                                      width: 200.0,
-                                                      height: 35.0,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10.0),
-                                                          color:
-                                                              secondaryColor),
-                                                      child: Center(
-                                                        child: Text(
-                                                          "Submit",
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            fontSize: 14,
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .none,
+                                                  const SizedBox(
+                                                    height: 30,
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () async {
+code.checkCode(context, int.tryParse(codeController.text)!);
+                                                    },
+                                                    child: Container(
+                                                        width: 200.0,
+                                                        height: 35.0,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
+                                                            color:
+                                                                secondaryColor),
+                                                        child: Center(
+                                                          child: Text(
+                                                            "Submit",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontSize: 14,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      )),
-                                                ),
-                                              ],
+                                                        )),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      });
-                                },
-                                icon: const Icon(Icons.payments),
-                                color: Colors.red,
-                              ),
-                              color: const Color(0xFF411C2E),
-                              delayanimation: 1.7),
-                          SizedBox(
-                            width: we * 0.03,
-                          ),
-                          iconswidget(
-                              title: "سحب",
-                              color: const Color(0xFF411C2E),
-                              child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.payment,
+                                          );
+                                        });
+                                  },
+                                  icon: const Icon(Icons.payments),
                                   color: Colors.red,
+                                )),
+                            SizedBox(
+                              width: we * 0.03,
+                            ),
+                            iconswidget(
+                                title: "سحب",
+                                color: const Color(0xFF411C2E),
+                                child: IconButton(
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            titlePadding: EdgeInsets.all(0),
+                                            title: Align(
+                                              alignment: Alignment.topRight,
+                                              child: Padding(
+                                                padding: EdgeInsets.all(0),
+                                                child: IconButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    icon: Icon(Icons.close)),
+                                              ),
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            content: Container(
+                                              height: 100,
+                                              width: 130,
+                                              decoration: BoxDecoration(),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "......في انتظار الموافقه",
+                                                    style: TextStyle(
+                                                        fontFamily: 'Roboto',
+                                                        color: Colors.black,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(
+                                                    "سيتم التواصل معك",
+                                                    style: TextStyle(
+                                                        fontFamily: 'Roboto',
+                                                        color: Colors.black,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                  },
+                                  icon: Icon(
+                                    Icons.payment,
+                                    color: Colors.red,
+                                  ),
                                 ),
-                              ),
-                              delayanimation: 1.9),
-                          SizedBox(width: we * 0.03),
-                          iconswidget(
-                              title: "نقل",
-                              child: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.receipt),
-                                color: Colors.purple,
-                              ),
-                              color: const Color(0xFF32204D),
-                              delayanimation: 2.1),
-                          SizedBox(
-                            width: we * 0.03,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: he * 0.05,
-                      ),
+                                delayanimation: 1.9),
+                            SizedBox(width: we * 0.03),
+                          ],
+                        ),
+                        SizedBox(
+                          height: he * 0.05,
+                        ),
 
-                      // histories from wallet  ..  //
-                      historywallet(
-                        images: 'assets/icons/dyr.png',
-                        title: "العمله حمراء",
-                        money: "11.90",
-                        name: 'عمله سوريه',
-                      ),
-                      SizedBox(
-                        height: he * 0.02,
-                      ),
-                      historywallet(
-                        images: "assets/icons/lep.png",
-                        title: "العمله الخضراء",
-                        money: "63.0",
-                        name: 'عمله لبنان',
-                      ),
-                      SizedBox(
-                        height: he * 0.02,
-                      ),
-                      historywallet(
-                        images: "assets/icons/egp.png",
-                        title: "العمله صفراء",
-                        money: "32.0",
-                        name: 'عمله مصريه',
-
-                      ),
-                    ],
-
+                        // histories from wallet  ..  //
+                        historywallet(
+                          images: 'assets/icons/dyr.png',
+                          title: "العمله حمراء",
+                          money: CacheHelper.get(key: 'redCoins') == null
+                              ? '0'
+                              : CacheHelper.get(key: 'redCoins').toString(),
+                          name: 'عمله سوريه',
+                        ),
+                        SizedBox(
+                          height: he * 0.02,
+                        ),
+                        historywallet(
+                          images: "assets/icons/lep.png",
+                          title: "العمله الخضراء",
+                          money: CacheHelper.get(key: 'greenCoins') == null
+                              ? '0'
+                              : CacheHelper.get(key: 'greenCoins').toString(),
+                          name: 'عمله لبنان',
+                        ),
+                        SizedBox(
+                          height: he * 0.02,
+                        ),
+                        historywallet(
+                          images: "assets/icons/egp.png",
+                          title: "العمله صفراء",
+                          money: CacheHelper.get(key: 'yellowCoins') == null
+                              ? '0'
+                              : CacheHelper.get(key: 'yellowCoins').toString(),
+                          name: 'عمله مصريه',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

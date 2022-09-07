@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/index.dart';
+import 'package:get/get.dart';
 import 'package:jacobia/view/components/component.dart';
+import 'package:jacobia/view_model/AuthGetX/AuthController.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants.dart';
+import '../../../view_model/database/local/cache_helper.dart';
 import '../../components/ Widget/CompettionWidget.dart';
 import '../../components/ Widget/FinishedRaces.dart';
 import '../../components/ Widget/JoinedRaces.dart';
 import 'compettitionDetails.dart';
 
 class Competition extends StatelessWidget {
-  int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 100000;
-
-  void onEnd() {
-    print('onEnd');
-  }
+  var auth = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class Competition extends StatelessWidget {
                             Column(
                               children: [
                                 Text(
-                                  'kamal magdy',
+                                  CacheHelper.get(key: 'name').toString(),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 17,

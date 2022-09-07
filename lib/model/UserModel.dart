@@ -9,10 +9,14 @@ class UserModel {
   final String? nick;
  final String? nationality;
   final String? address;
+  final int? greenCoins;
+  final int? redCoins;
+  final int? yellowCoins;
 
 
-  UserModel(
-      {required this.name,
+
+  UserModel({required this.greenCoins, required this.redCoins,required  this.yellowCoins,
+      required this.name,
         required this.email,
         required this.uid,
          this.profilePhoto,
@@ -28,7 +32,12 @@ class UserModel {
     'phone':phone,
     'nick':nick,
     'nationality':nationality,
-    'address':address
+    'address':address,
+    'redCoins':redCoins,
+    'greenCoins':greenCoins,
+    'yellowCoins':yellowCoins
+
+
   };
 
   static UserModel fromSnap(DocumentSnapshot snap) {
@@ -41,7 +50,7 @@ class UserModel {
       phone:snapshot['phone'],
       nationality:snapshot['nationality'],
       nick:snapshot['nick'],
-      address:snapshot['address'],
+      address:snapshot['address'], greenCoins: snapshot['greenCoins'], redCoins: snapshot['redCoins'], yellowCoins:snapshot['yellowCoins'],
 
     );
   }

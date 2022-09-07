@@ -60,6 +60,7 @@ dependencies:
   simple_animations: ^4.0.1
   supercharged: ^2.1.1
   date_count_down: ^2.1.0
+  random_string:
 dev_dependencies:
   flutter_test:
     sdk: flutter
