@@ -12,6 +12,7 @@ import '../../view/pages/MainScreen.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
+  var l = [];
 
   late Rx<User?> _user;
   String? name;
@@ -23,7 +24,9 @@ class AuthController extends GetxController {
   var isSignedIn = false.obs;
 
   User? get userProfile => auth.currentUser;
-String? emailq ;
+  bool enrolled = false;
+  String? emailq;
+
   void onReady() {
     super.onReady();
 
@@ -34,11 +37,9 @@ String? emailq ;
 
   _setInitialScreen(User? user) {
     if (user == null) {
-
       Get.offAll(() => SignIn());
     } else {
       Get.offAll(() => MainScreen());
-
     }
   }
 
@@ -63,17 +64,46 @@ String? emailq ;
   //   String downloadUrl = await snap.ref.getDownloadURL();
   //   return downloadUrl;
   // }
+  enrolledQuiz(var docId) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(CacheHelper.get(key: 'uid'))
+        .collection('enrolled_quiz')
+        .doc(docId)
+        .set({'id': docId}).then((value) async {
+      Get.defaultDialog(content: const Text('Enrolled'), title: '');
+    });
+  }
+
+    getEnrolled() async {
+
+     enrolled = false;
+ await  FirebaseFirestore.instance
+        .collection('users')
+        .doc( CacheHelper.get(key: 'uid'))
+        .collection('enrolled_quiz')
+        .get()
+        .then((value) => value.docs.forEach((element) {
+
+     l.add(element.get('id').toString());
+              print('sssssssssssssssssssssssssssssss');
+              print(l);
+            }));
+ print('111111111');
+ print (l);
+
+    return l;
+  }
 
   void registerUser(String username, String email, String password,
       String phone, String nick, String nation, String address) async {
-
     try {
       // save out user to our ath and firebase firestore
       UserCredential cred = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      emailq=email;
+      emailq = email;
       // String downloadUrl = await _uploadToStorage(image);
       UserModel user = UserModel(
           name: username,
@@ -82,7 +112,10 @@ String? emailq ;
           phone: phone,
           nationality: nation,
           nick: nick,
-          address: address, greenCoins: 0,redCoins: 0,yellowCoins: 0);
+          address: address,
+          greenCoins: 0,
+          redCoins: 0,
+          yellowCoins: 0);
 
       await FirebaseFirestore.instance
           .collection('users')
@@ -90,7 +123,6 @@ String? emailq ;
           .set(user.toJson());
 
       _saveUser(user);
-
     } catch (e) {
       Get.snackbar(
         'Error Creating Account',
@@ -112,15 +144,14 @@ String? emailq ;
     CacheHelper.put(key: 'redCoins', value: user.redCoins);
     CacheHelper.put(key: 'yellowCoins', value: user.yellowCoins);
     CacheHelper.put(key: 'greenCoins', value: user.greenCoins);
-
   }
 
   void loginUser(String email, String password) async {
-
     try {
       if (email.isNotEmpty && password.isNotEmpty) {
-        await auth.signInWithEmailAndPassword(email: email, password: password).then((value) => getUser(email: email));
-
+        await auth
+            .signInWithEmailAndPassword(email: email, password: password)
+            .then((value) => getUser(email: email));
       } else {
         Get.snackbar(
           'Error Logging in',
@@ -141,25 +172,23 @@ String? emailq ;
         .where('email', isEqualTo: email)
         .get()
         .then((value) {
-      value.docs.forEach((result) {
+      for (var result in value.docs) {
         UserModel user = UserModel(
-            uid: result.id,
-            email: result.get('email'),
-            name: result.get('name'),
-            phone: result.get('phone'),
-            address: result.get('address'),
-            nick: result.get('nick'),
-            profilePhoto: result.get('profilePhoto'),
-        redCoins: result.get('redCoins'),
+          uid: result.id,
+          email: result.get('email'),
+          name: result.get('name'),
+          phone: result.get('phone'),
+          address: result.get('address'),
+          nick: result.get('nick'),
+          profilePhoto: result.get('profilePhoto'),
+          redCoins: result.get('redCoins'),
           yellowCoins: result.get('yellowCoins'),
           greenCoins: result.get('greenCoins'),
-
-
         );
 
         print(result.id);
         _saveUser(user);
-      });
+      }
     });
   }
 

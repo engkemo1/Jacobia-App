@@ -36,6 +36,7 @@ class CompetitionWidget extends StatelessWidget {
                         navigatorScreen(
                             context,
                             CompettitionDetails(
+                              date: snap[index]['date'],
                                 docId: snap[index].id,
                                 image: snap[index]['imageUrl'],
                                 desc: snap[index]['desc'],

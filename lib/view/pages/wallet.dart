@@ -15,11 +15,9 @@ class Wallet extends StatefulWidget {
 }
 
 var codeController = TextEditingController();
-var user = FirebaseFirestore
-    .instance
+var user = FirebaseFirestore.instance
     .collection('users')
-    .doc(CacheHelper.get(
-    key: 'uid'));
+    .doc(CacheHelper.get(key: 'uid'));
 
 class _WalletState extends State<Wallet> {
   @override
@@ -55,33 +53,31 @@ class _WalletState extends State<Wallet> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            CircleAvatar(
+                            const CircleAvatar(
                               backgroundImage:
                                   AssetImage('assets/images/man.png'),
                               radius: 30,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Builder(builder: (context) {
                               return Column(
                                 children: [
                                   Text(
-                                    CacheHelper.get(key: 'name') == null
-                                        ? ''
-                                        : CacheHelper.get(key: 'name'),
-                                    style: TextStyle(
+                                    CacheHelper.get(key: 'name') ?? '',
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 17,
                                         decoration: TextDecoration.none),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                 ],
                               );
                             }),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Container(
@@ -97,7 +93,7 @@ class _WalletState extends State<Wallet> {
                                 height: 30,
                                 child: Stack(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.notifications,
                                       color: primaryColor,
                                       size: 30,
@@ -115,8 +111,8 @@ class _WalletState extends State<Wallet> {
                                             color: Color(0xffc32c37),
                                             border: Border.all(
                                                 color: Colors.white, width: 1)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(0.0),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(0.0),
                                           child: Center(
                                             child: Text(
                                               '1',
@@ -234,7 +230,11 @@ class _WalletState extends State<Wallet> {
                                                   ),
                                                   GestureDetector(
                                                     onTap: () async {
-code.checkCode(context, int.tryParse(codeController.text)!);
+                                                      code.checkCode(
+                                                          context,
+                                                          int.tryParse(
+                                                              codeController
+                                                                  .text)!);
                                                     },
                                                     child: Container(
                                                         width: 200.0,
@@ -246,7 +246,7 @@ code.checkCode(context, int.tryParse(codeController.text)!);
                                                                         10.0),
                                                             color:
                                                                 secondaryColor),
-                                                        child: Center(
+                                                        child: const Center(
                                                           child: Text(
                                                             "Submit",
                                                             style: TextStyle(
@@ -278,6 +278,7 @@ code.checkCode(context, int.tryParse(codeController.text)!);
                             iconswidget(
                                 title: "سحب",
                                 color: const Color(0xFF411C2E),
+                                delayanimation: 1.9,
                                 child: IconButton(
                                   onPressed: () {
                                     showDialog(
@@ -340,8 +341,7 @@ code.checkCode(context, int.tryParse(codeController.text)!);
                                     Icons.payment,
                                     color: Colors.red,
                                   ),
-                                ),
-                                delayanimation: 1.9),
+                                )),
                             SizedBox(width: we * 0.03),
                           ],
                         ),

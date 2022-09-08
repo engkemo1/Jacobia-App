@@ -1,13 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jacobia/view/pages/Quiz/quiz_screen.dart';
 import 'package:jacobia/view_model/database/local/cache_helper.dart';
 import '../../../constants.dart';
+import 'package:intl/intl.dart';
+
+import '../../../view_model/AuthGetX/AuthController.dart';
 
 class CompettitionDetails extends StatefulWidget {
   final String desc;
   final String image;
   final String docId;
+  final String date;
+
   final int max;
   final int min;
   final int price;
@@ -18,6 +24,7 @@ class CompettitionDetails extends StatefulWidget {
 
   const CompettitionDetails({
     super.key,
+    required this.date,
     required this.desc,
     required this.max,
     required this.min,
@@ -48,7 +55,18 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
 
   @override
   Widget build(BuildContext context) {
+    String formattedDate = DateFormat('d/M/y').format(DateTime.now());
+    var auth = Get.put(AuthController());
+    print(auth.l);
+
+    print('ddddddddddddddddddddddd');
+
+    String? v;
+    print(widget.docId);
+    print('dsaaaaaassssssssssssssssssssss');
+    print(auth.l);
     var size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -84,24 +102,24 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                   borderRadius: BorderRadius.circular(20),
                                   color: Colors.white70,
                                 ),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.arrow_back_ios_new,
                                   color: primaryColor,
                                   size: 25,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Text(
-                               CacheHelper.get(key: 'name')??'',
-                                style: TextStyle(
+                                CacheHelper.get(key: 'name') ?? '',
+                                style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 17,
                                     decoration: TextDecoration.none,
                                     fontFamily: 'Arial'),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Container(
@@ -118,7 +136,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                   child: Stack(
                                     alignment: AlignmentDirectional.center,
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.notifications,
                                         color: primaryColor,
                                         size: 25,
@@ -137,8 +155,8 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                               border: Border.all(
                                                   color: Colors.white,
                                                   width: 1)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(0.0),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(0.0),
                                             child: Center(
                                               child: Text(
                                                 '1',
@@ -172,7 +190,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 50,
                           ),
                           Container(
@@ -189,10 +207,10 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                   child: Image.network(widget.image),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   'What to do:',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
@@ -202,24 +220,24 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                       decoration: TextDecoration.none,
                                       color: Colors.white),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Text(
                                   widget.desc,
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 14,
                                       fontFamily: 'Arial',
                                       fontWeight: FontWeight.normal,
                                       decoration: TextDecoration.none,
                                       color: Colors.white),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Row(
-                                  children: [
+                                  children: const [
                                     Expanded(
                                         child: Divider(
                                       thickness: 2,
@@ -232,7 +250,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                   children: [
                                     Row(
                                       children: [
-                                        Text(
+                                        const Text(
                                           'price:  ',
                                           style: TextStyle(
                                               color: Colors.white,
@@ -240,7 +258,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                         ),
                                         Text(
                                           '${widget.price} ',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 13),
                                         ),
@@ -253,7 +271,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                     SizedBox(
                                         width: 200,
                                         child: ExpansionTile(
-                                          title: Text(
+                                          title: const Text(
                                             'Ranks profit:',
                                             style:
                                                 TextStyle(color: Colors.white),
@@ -265,16 +283,16 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                               children: [
                                                 Text(
                                                   'Rank1: ${widget.r1}',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 12,
                                                       color: Colors.white),
                                                 ),
                                                 Text('Rank2: ${widget.r2}',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 12,
                                                         color: Colors.white)),
                                                 Text('Rank3: ${widget.r3}',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 12,
                                                         color: Colors.white)),
                                               ],
@@ -284,15 +302,15 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                                   MainAxisAlignment.spaceAround,
                                               children: [
                                                 Text('Rank4: ${widget.r4}',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 12,
                                                         color: Colors.white)),
                                                 Text('Rank5: ${widget.r5}',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 12,
                                                         color: Colors.white)),
                                                 Text('Rank6: ${widget.r6}',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 12,
                                                         color: Colors.white)),
                                               ],
@@ -302,15 +320,15 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                                   MainAxisAlignment.spaceAround,
                                               children: [
                                                 Text('Rank7: ${widget.r7}',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 12,
                                                         color: Colors.white)),
                                                 Text('Rank8: ${widget.r8}',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 12,
                                                         color: Colors.white)),
                                                 Text('Rank9: ${widget.r9}',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 12,
                                                         color: Colors.white)),
                                               ],
@@ -320,7 +338,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Text('Rank10: ${widget.r10}',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 12,
                                                         color: Colors.white)),
                                               ],
@@ -329,12 +347,12 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                         ))
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Categories: ',
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 17),
@@ -344,7 +362,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                           widget.categories.length,
                                           (index) => Text(
                                                 '   ${widget.categories[index]}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.white),
                                               )),
                                     )
@@ -353,7 +371,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                               ],
                             ),
                           ),
-                          Padding(
+                          const Padding(
                             padding: const EdgeInsets.only(left: 20.0),
                             child: Text(
                               'How can i win',
@@ -371,7 +389,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                               child: Theme(
                                 data: ThemeData(
                                     accentColor: Colors.transparent,
-                                    colorScheme: ColorScheme.light(
+                                    colorScheme: const ColorScheme.light(
                                       primary: Colors.transparent,
                                     )),
                                 child: Stepper(
@@ -406,12 +424,13 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                             children: [
                                               Row(
                                                 children: [
-                                                  Text('Join The Callenge'),
-                                                  SizedBox(
+                                                  const Text(
+                                                      'Join The Callenge'),
+                                                  const SizedBox(
                                                     width: 5,
                                                   ),
                                                   Text(widget.price.toString()),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 3,
                                                   ),
                                                   Image.asset(
@@ -423,72 +442,82 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                             ],
                                           )),
                                     ),
-                                    Step(
+                                    const Step(
                                       title: Text('Step 2'),
                                       content: Text(
-                                          'you should be in rank1 to 10 to win '),
+                                          'you23 should be in rank1 to 10 to win '),
                                     ),
                                   ],
                                 ),
                               )),
-                          Center(
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.black26,
-                                    maximumSize: Size(200, 100),
-                                    fixedSize: Size(160, 30),
-                                    minimumSize: Size(20, 40)),
-                                onPressed: () {
-                                  showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        title: const Text('Are you sure'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text(
-                                                  'Your Balance will reduce ${widget.price}'),
-                                            ],
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: const Text('Yes'),
-                                            onPressed: () {
-                                              FirebaseFirestore.instance
-                                                  .collection('users')
-                                                  .doc(CacheHelper.get(
-                                                      key: 'uid'))
-                                                  .collection('enrolled_quiz').doc("${widget.docId}")
-                                                  .set({
-                                                'id': widget.docId
-                                              }).then((value) {
-                                                Navigator.pop(context);
+                              Center(
+                                  child:
+                                  auth.l.contains(widget.docId) == false?
+                              ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.black38,
+                                          maximumSize: Size(200, 100),
+                                          fixedSize: Size(160, 30),
+                                          minimumSize: Size(20, 40)),
+                                      onPressed: () {
+                                        showDialog<void>(
+                                          context: context,
+                                          barrierDismissible: false,
+                                          // user must tap button!
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                              title: const Text('Are you sure'),
+                                              content: SingleChildScrollView(
+                                                child: ListBody(
+                                                  children: <Widget>[
+                                                    Text(
+                                                        'Your Balance will reduce ${widget.price}'),
+                                                  ],
+                                                ),
+                                              ),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: const Text('Yes'),
+                                                  onPressed: () async {
+                                                    auth.enrolledQuiz(
+                                                        widget.docId);
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: const Text('No'),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: Text('Enroll')):ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                          widget.date == formattedDate
+                                              ? Colors.black38
+                                              : Colors.grey,
+                                          maximumSize: Size(200, 100),
+                                          fixedSize: Size(160, 30),
+                                          minimumSize: Size(20, 40)),
+                                      onPressed: () {
+                                        widget.date == formattedDate
+                                            ?
 
-                                              })  ;
-                                              Get.defaultDialog(content: Text('Enrolled'),title: '');
+                                        Get.to(QuizScreen())
+                                            : Get.snackbar(
+                                            '!تنبيه', 'لم تبدأ بعد');
+                                      },
+                                      child: const Text('Start'))
+                                )
 
-                                            },
-                                          ),
-                                          TextButton(
-                                            child: const Text('No'),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                child: Text('Enroll')),
-                          ),
                           // Padding(
                           //   padding:
                           //       EdgeInsets.only(left: 20, top: 20, bottom: 10),
@@ -504,7 +533,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                           //   ),
                           // ),
                           // CompetitionWidget(),
-                          SizedBox(
+                          ,const SizedBox(
                             height: 20,
                           )
                         ],
