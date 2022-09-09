@@ -3,8 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:jacobia/view/pages/Quiz/after_game_screen.dart';
-import 'package:jacobia/view/pages/Quiz/leaderboard_screen.dart';
-import '../Questions.dart';
+import 'package:jacobia/view_model/database/local/cache_helper.dart';
 import '../model/question model.dart';
 
 class QuestionController extends GetxController
@@ -14,12 +13,13 @@ class QuestionController extends GetxController
 
   var Q = [];
 
-  getQuestions() async {
-    var questions = FirebaseFirestore.instance.collection('question');
-
-
+  getQuestions(List list) async {
+    var questions = FirebaseFirestore.instance
+        .collection('question')
+        .where('selected', isEqualTo: list);
 
     var question = await questions.get();
+    print(question);
 
     var optionsSnapshot = question.docs.forEach((element) {
       options.add(Option.fromJson(element.data() as Map<String, dynamic>));
@@ -39,23 +39,11 @@ class QuestionController extends GetxController
 
     return Q;
   }
+  GetRank(){
+    FirebaseFirestore.instance.collection('').where('correctAnswer',isGreaterThanOrEqualTo: 20).get( );
+  }
 
   // Lets animated our progress bar
-  getTrueFalse() async {
-    var questions = FirebaseFirestore.instance
-        .collection('question')
-        .where('type', isEqualTo: 'trueFalse');
-
-    var question = await questions.get();
-
-    var OptionsSnapshot = question.docs.forEach((element) {
-      TrueFalse.add(trueFalse.fromJson(element.data() as Map<String, dynamic>));
-    });
-
-    print(TrueFalse.toString());
-
-    return OptionsSnapshot;
-  }
 
   AnimationController? _animationController;
   Animation? _animation;
@@ -66,18 +54,6 @@ class QuestionController extends GetxController
   PageController? _pageController;
 
   PageController? get pageController => this._pageController;
-
-  List<Question> _questions = sample_data
-      .map(
-        (question) => Question(
-            id: question['id'],
-            question: question['question'],
-            options: question['options'],
-            answer: question['answer_index']),
-      )
-      .toList();
-
-  List<Question> get questions => this._questions;
 
   bool _isAnswered = false;
 
@@ -104,8 +80,6 @@ class QuestionController extends GetxController
   @override
   void onInit() {
     getAll();
-    getTrueFalse();
-    getQuestions();
     // Our animation duration is 60 s
     // so our plan is to fill the progress bar within 60s
     _animationController =
@@ -131,32 +105,20 @@ class QuestionController extends GetxController
     _pageController!.dispose();
   }
 
-  void checkAns(Option question, int selectedIndex) {
+  void checkAns(Option question, int selectedIndex, String qName) {
     // because once user press any option then it will run
+
     _isAnswered = true;
     _correctAns = question.answer;
     _selectedAns = selectedIndex;
+    if (_correctAns == _selectedAns) {
+      _numOfCorrectAns++;
 
-    if (_correctAns == _selectedAns) _numOfCorrectAns++;
-
-    // It will stop the counter
-    _animationController!.stop();
-    update();
-
-    // Once user select an ans after 3s it will go to the next qn
-    Future.delayed(Duration(seconds: 3), () {
-      nextQuestion();
-    });
-  }
-
-  void checkAnsTf(trueFalse question, int selectedIndex) {
-    // because once user press any option then it will run
-    _isAnswered = true;
-    _correctAns = question.answer;
-    _selectedAns = selectedIndex;
-
-    if (_correctAns == _selectedAns) _numOfCorrectAns++;
-
+      FirebaseFirestore.instance
+          .collection(qName)
+          .doc(CacheHelper.get(key: 'uid'))
+          .set({'correctAnswer': _numOfCorrectAns});
+    }
     // It will stop the counter
     _animationController!.stop();
     update();
@@ -168,7 +130,7 @@ class QuestionController extends GetxController
   }
 
   void nextQuestion() {
-    if (_questionNumber.value != Q.length) {
+    if (_questionNumber.value != options.length) {
       _isAnswered = false;
       _pageController!
           .nextPage(duration: Duration(milliseconds: 250), curve: Curves.ease);
@@ -184,7 +146,7 @@ class QuestionController extends GetxController
       if (numOfCorrectAns >= 8) {
         Get.to(AfterGameScreen(score: numOfCorrectAns));
       } else {
-        Get.to(LeaderboardScreen());
+        Get.to(AfterGameScreen(score: numOfCorrectAns));
       }
     }
   }

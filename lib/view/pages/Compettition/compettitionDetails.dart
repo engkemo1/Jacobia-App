@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jacobia/view/pages/Quiz/quiz_screen.dart';
@@ -51,20 +50,20 @@ class CompettitionDetails extends StatefulWidget {
 }
 
 class _CompettitionDetailsState extends State<CompettitionDetails> {
+
   int _index = 0;
 
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat('d/M/y').format(DateTime.now());
-    var auth = Get.put(AuthController());
-    print(auth.l);
-
+    print(widget.categories);
+    var list = CacheHelper.sharedPreferences.getStringList('enrolled')??[];
+    print(list);
     print('ddddddddddddddddddddddd');
 
     String? v;
     print(widget.docId);
     print('dsaaaaaassssssssssssssssssssss');
-    print(auth.l);
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -452,7 +451,7 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                               )),
                               Center(
                                   child:
-                                  auth.l.contains(widget.docId) == false?
+                              !list.contains(widget.docId)?
                               ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.black38,
@@ -483,8 +482,8 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                                 TextButton(
                                                   child: const Text('Yes'),
                                                   onPressed: () async {
-                                                    auth.enrolledQuiz(
-                                                        widget.docId);
+
+                                                    Get.put(AuthController().enrolledQuiz(widget.docId));
                                                   },
                                                 ),
                                                 TextButton(
@@ -508,10 +507,11 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                           fixedSize: Size(160, 30),
                                           minimumSize: Size(20, 40)),
                                       onPressed: () {
+
                                         widget.date == formattedDate
                                             ?
 
-                                        Get.to(QuizScreen())
+                                        Get.to(QuizScreen(name: widget.name,list: widget.categories,))
                                             : Get.snackbar(
                                             '!تنبيه', 'لم تبدأ بعد');
                                       },

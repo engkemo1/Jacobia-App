@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:jacobia/constants.dart';
+import 'package:jacobia/view_model/question_controller.dart';
 
+import '../../../view_model/database/local/cache_helper.dart';
 import '../../components/reusable_widgets.dart';
 import 'leaderboard_screen.dart';
 
@@ -38,7 +40,7 @@ class _AfterGameScreenState extends State<AfterGameScreen> {
 
   @override
   Widget build(BuildContext context) {
-
+var question =Get.put(QuestionController());
     setState(() {
       _controllerTopCenter.play();
     });
@@ -62,6 +64,13 @@ class _AfterGameScreenState extends State<AfterGameScreen> {
                             color: Color(0xffFFBA07),
                             fontWeight: FontWeight.bold),
                       ),
+                      Text(
+                        CacheHelper.get(key: 'name'),
+                        style: Theme.of(context).textTheme.headline3?.copyWith(
+                            color:Colors.blue,
+                            fontWeight: FontWeight.bold),
+                      ),
+
                       Padding(
                         padding:
                             EdgeInsets.only(top: MediaQuery.of(context).size.width*0.05),
@@ -83,7 +92,7 @@ class _AfterGameScreenState extends State<AfterGameScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    widget.score.toString() + "/10",
+                                    '${widget.score}/${question.options.length}',
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline5

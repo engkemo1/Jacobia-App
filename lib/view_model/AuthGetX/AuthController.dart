@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ import '../../view/pages/MainScreen.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
-  var l = [];
 
   late Rx<User?> _user;
   String? name;
@@ -65,35 +65,53 @@ class AuthController extends GetxController {
   //   return downloadUrl;
   // }
   enrolledQuiz(var docId) async {
+    List<String> l = [];
+
     await FirebaseFirestore.instance
         .collection('users')
         .doc(CacheHelper.get(key: 'uid'))
         .collection('enrolled_quiz')
         .doc(docId)
         .set({'id': docId}).then((value) async {
+     var h=CacheHelper.sharedPreferences.getStringList('enrolled')?? [];
+     var t=h.add(docId);
+      print('sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss');
+
+      print(h);
+
+      l.add(docId);
+      print(l);
+      CacheHelper.sharedPreferences.getStringList('enrolled') == null
+          ? await CacheHelper.sharedPreferences.setStringList('enrolled', l)
+          : CacheHelper.sharedPreferences.setStringList('enrolled', h);
+      print(l);
+      print('dssaaaaaasssssssssss');
+
+      if (kDebugMode) {
+        print(CacheHelper.sharedPreferences.getStringList('enrolled'));
+      }
+
       Get.defaultDialog(content: const Text('Enrolled'), title: '');
     });
   }
 
-    getEnrolled() async {
-
-     enrolled = false;
- await  FirebaseFirestore.instance
-        .collection('users')
-        .doc( CacheHelper.get(key: 'uid'))
-        .collection('enrolled_quiz')
-        .get()
-        .then((value) => value.docs.forEach((element) {
-
-     l.add(element.get('id').toString());
-              print('sssssssssssssssssssssssssssssss');
-              print(l);
-            }));
- print('111111111');
- print (l);
-
-    return l;
-  }
+  // getEnrolled() async {
+  //   enrolled = false;
+  //   await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(CacheHelper.get(key: 'uid'))
+  //       .collection('enrolled_quiz')
+  //       .get()
+  //       .then((value) => value.docs.forEach((element) {
+  //             l.add(element.get('id').toString());
+  //             print('sssssssssssssssssssssssssssssss');
+  //             print(l);
+  //           }));
+  //   print('111111111');
+  //   print(l);
+  //
+  //   return l;
+  // }
 
   void registerUser(String username, String email, String password,
       String phone, String nick, String nation, String address) async {

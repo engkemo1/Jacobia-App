@@ -13,7 +13,7 @@ void main() async {
   Get.put(QuestionController());
 
   await CacheHelper.init();
-  Get.put(AuthController()).getEnrolled();
+  // Get.put(AuthController()).getEnrolled();
   await CacheHelper.get(key: 'name');
   print(await CacheHelper.get(key: 'name'));
 

@@ -9,9 +9,10 @@ class QuestionCard extends StatelessWidget {
 
   final Option option;
 
+  final String name;
 
 
-   QuestionCard({ required this.option});
+   QuestionCard({ required this.option, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class QuestionCard extends StatelessWidget {
                   index: index,
 
                   text: option.type=='options'?optionsQ[index]:tfQ[index],
-                  press: () {_controller.checkAns(option, index);},
+                  press: () {_controller.checkAns(option, index,name);},
                 ),
           )
 
