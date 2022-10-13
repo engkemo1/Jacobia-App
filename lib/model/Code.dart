@@ -1,7 +1,7 @@
 
 class Code {
   bool ?applied;
-  int? code;
+  String? code;
   String? typeCoins;
   int? price;
 

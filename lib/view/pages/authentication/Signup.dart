@@ -42,26 +42,32 @@ class _SignUpState extends State<SignUp> {
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+
+                  child:  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: const [
-                      // #signup_text
-                      Text(
-                        "انشاء حساب",
-                        textAlign: TextAlign.right,
-                        style: TextStyle(color: Colors.white, fontSize: 32.5),
-                      ),
-                      SizedBox(
-                        height: 5,
+                    children:  [
+                      Image.asset('assets/icons/logo.png',height: MediaQuery.of(context).size.height*0.3,width: MediaQuery.of(context).size.width*0.3,),
+
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          /// LOGIN TEXT
+                          Text(
+                            'تسجيل الدخول',
+                            style: TextStyle(color: Colors.white, fontSize: 25.5),
+                            textAlign: TextAlign.end,
+                          ),
+
+                          Text(
+                            "مرحبا بك",
+                            textAlign: TextAlign.end,
+                            style: TextStyle(color: Colors.white, fontSize: 13),
+                          ),],
                       ),
 
-                      // #welcome
-                      Text(
-                        "مرحبا بك",
-                        textAlign: TextAlign.right,
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
+                      /// WELCOME
+
                     ],
                   ),
                 )),
@@ -121,6 +127,7 @@ class _SignUpState extends State<SignUp> {
                               ),
                               TextFormField(
                                 validator: (val) {
+
                                   validateEmail(val!);
                                 },
                                 textAlign: TextAlign.end,
@@ -185,7 +192,7 @@ class _SignUpState extends State<SignUp> {
                                     contentPadding:
                                         EdgeInsets.symmetric(horizontal: 10),
                                     border: InputBorder.none,
-                                    hintText: "الكنيه",
+                                    hintText: "الكنية",
                                     hintStyle: TextStyle(color: Colors.grey)),
                               ),
                               Divider(
@@ -203,7 +210,7 @@ class _SignUpState extends State<SignUp> {
                                     contentPadding:
                                         EdgeInsets.symmetric(horizontal: 10),
                                     border: InputBorder.none,
-                                    hintText: "مكان الاقامه",
+                                    hintText: "مكان الاقامة",
                                     hintStyle: TextStyle(color: Colors.grey)),
                               ),
                               Divider(
@@ -221,7 +228,7 @@ class _SignUpState extends State<SignUp> {
                                     contentPadding:
                                         EdgeInsets.symmetric(horizontal: 10),
                                     border: InputBorder.none,
-                                    hintText: "الجنسيه",
+                                    hintText: "الجنسية",
                                     hintStyle: TextStyle(color: Colors.grey)),
                               ),
                               Divider(

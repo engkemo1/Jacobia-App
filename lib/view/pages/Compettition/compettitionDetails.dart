@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jacobia/view/pages/Quiz/quiz_screen.dart';
@@ -6,23 +7,28 @@ import '../../../constants.dart';
 import 'package:intl/intl.dart';
 
 import '../../../view_model/AuthGetX/AuthController.dart';
+import '../../../view_model/getx/enroll.dart';
 
 class CompettitionDetails extends StatefulWidget {
   final String desc;
   final String image;
   final String docId;
   final String date;
-
+  final String typeCoins;
   final int max;
   final int min;
   final int price;
   final int profit;
   final String name;
+  final String endTime;
+  final String startTime;
+
   final List categories;
   final int? r1, r2, r3, r4, r5, r6, r7, r8, r9, r10;
 
   const CompettitionDetails({
     super.key,
+    required this.typeCoins,
     required this.date,
     required this.desc,
     required this.max,
@@ -42,7 +48,7 @@ class CompettitionDetails extends StatefulWidget {
     required this.r8,
     required this.r9,
     required this.r10,
-    required this.docId,
+    required this.docId, required this.endTime, required this.startTime,
   });
 
   @override
@@ -50,20 +56,21 @@ class CompettitionDetails extends StatefulWidget {
 }
 
 class _CompettitionDetailsState extends State<CompettitionDetails> {
-
   int _index = 0;
 
   @override
+  @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat('d/M/y').format(DateTime.now());
-    print(widget.categories);
-    var list = CacheHelper.sharedPreferences.getStringList('enrolled')??[];
-    print(list);
-    print('ddddddddddddddddddddddd');
+    String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    var  date1=DateTime.parse('${widget.date} ${widget.startTime}');
 
-    String? v;
-    print(widget.docId);
-    print('dsaaaaaassssssssssssssssssssss');
+    String d =
+
+    DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+    var date2=DateTime.parse(d);
+    print(widget.categories);
+    var list = CacheHelper.sharedPreferences.getStringList('enrolled') ?? [];
+
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -94,17 +101,22 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Container(
-                                height: 45,
-                                width: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.white70,
-                                ),
-                                child: const Icon(
-                                  Icons.arrow_back_ios_new,
-                                  color: primaryColor,
-                                  size: 25,
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  height: 45,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white70,
+                                  ),
+                                  child: const Icon(
+                                    Icons.arrow_back_ios_new,
+                                    color: primaryColor,
+                                    size: 25,
+                                  ),
                                 ),
                               ),
                               const SizedBox(
@@ -235,138 +247,146 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Row(
-                                  children: const [
-                                    Expanded(
-                                        child: Divider(
-                                      thickness: 2,
-                                    ))
-                                  ],
-                                ),
-                                Row(
+                                Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
-                                      children: [
-                                        const Text(
-                                          'price:  ',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 17),
-                                        ),
-                                        Text(
-                                          '${widget.price} ',
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 13),
-                                        ),
-                                        Image.asset(
-                                          'assets/images/coin.png',
-                                          width: 15,
-                                        )
+                                      children: const [
+                                        Expanded(
+                                            child: Divider(
+                                          thickness: 2,
+                                        ))
                                       ],
                                     ),
-                                    SizedBox(
-                                        width: 200,
-                                        child: ExpansionTile(
-                                          title: const Text(
-                                            'Ranks profit:',
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 12.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const Text(
+                                                'price:  ',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 12),
+                                              ),
+                                              Text(
+                                                '${widget.price} ${widget.typeCoins}',
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 13),
+                                              ),
+                                              Image.asset(
+                                                'assets/images/coin.png',
+                                                width: 15,
+                                              )
+                                            ],
                                           ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 12.0),
+                                      child: FittedBox(
+                                        child: Row(
                                           children: [
+                                            const Text(
+                                              'Categories: ',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14),
+                                            ),
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                Text(
-                                                  'Rank1: ${widget.r1}',
+                                                children: List.generate(
+                                              widget.categories.length,
+                                              (index) => FittedBox(
+                                                child: Text(
+                                                  '   ${widget.categories[index]}',
                                                   style: const TextStyle(
-                                                      fontSize: 12,
                                                       color: Colors.white),
                                                 ),
-                                                Text('Rank2: ${widget.r2}',
-                                                    style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white)),
-                                                Text('Rank3: ${widget.r3}',
-                                                    style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white)),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                Text('Rank4: ${widget.r4}',
-                                                    style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white)),
-                                                Text('Rank5: ${widget.r5}',
-                                                    style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white)),
-                                                Text('Rank6: ${widget.r6}',
-                                                    style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white)),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                Text('Rank7: ${widget.r7}',
-                                                    style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white)),
-                                                Text('Rank8: ${widget.r8}',
-                                                    style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white)),
-                                                Text('Rank9: ${widget.r9}',
-                                                    style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white)),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text('Rank10: ${widget.r10}',
-                                                    style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white)),
-                                              ],
-                                            ),
+                                              ),
+                                            ))
                                           ],
-                                        ))
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    const Text(
-                                      'Categories: ',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 17),
+                                        ),
+                                      ),
                                     ),
-                                    Row(
-                                      children: List.generate(
-                                          widget.categories.length,
-                                          (index) => Text(
-                                                '   ${widget.categories[index]}',
+                                    SizedBox(
+                                        child: ExpansionTile(
+                                      title: const Text(
+                                        'Ranks profit:',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text(
+                                              'Rank1: ${widget.r1}',
+                                              style: const TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.white),
+                                            ),
+                                            Text('Rank2: ${widget.r2}',
                                                 style: const TextStyle(
-                                                    color: Colors.white),
-                                              )),
-                                    )
+                                                    fontSize: 10,
+                                                    color: Colors.white)),
+                                            Text('Rank3: ${widget.r3}',
+                                                style: const TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.white)),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text('Rank4: ${widget.r4}',
+                                                style: const TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.white)),
+                                            Text('Rank5: ${widget.r5}',
+                                                style: const TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.white)),
+                                            Text('Rank6: ${widget.r6}',
+                                                style: const TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.white)),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text('Rank7: ${widget.r7}',
+                                                style: const TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.white)),
+                                            Text('Rank8: ${widget.r8}',
+                                                style: const TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.white)),
+                                            Text('Rank9: ${widget.r9}',
+                                                style: const TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.white)),
+                                          ],
+                                        ),
+                                        Text('Rank10: ${widget.r10}',
+                                            style: const TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.white)),
+                                      ],
+                                    ))
                                   ],
-                                ),
+                                )
                               ],
                             ),
                           ),
@@ -444,15 +464,14 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                     const Step(
                                       title: Text('Step 2'),
                                       content: Text(
-                                          'you23 should be in rank1 to 10 to win '),
+                                          'you should be in rank1 to 10 to win '),
                                     ),
                                   ],
                                 ),
                               )),
-                              Center(
-                                  child:
-                              !list.contains(widget.docId)?
-                              ElevatedButton(
+                          Center(
+                              child: !list.contains(widget.docId)
+                                  ? ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.black38,
                                           maximumSize: Size(200, 100),
@@ -481,9 +500,23 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                               actions: <Widget>[
                                                 TextButton(
                                                   child: const Text('Yes'),
-                                                  onPressed: () async {
+                                                  onPressed: ()  {
+                                                   if(date2.isBefore(date1)){
 
-                                                    Get.put(AuthController().enrolledQuiz(widget.docId));
+                                                     Get.put(EnrollGetX())
+                                                         .enroll(
+                                                         widget.typeCoins,
+                                                         widget.price,
+                                                         widget.name,
+                                                         widget.docId);
+                                                     Navigator.pop(context);
+
+                                                   }else{
+                                                     Navigator.pop(context);
+
+                                                     Get.snackbar('!تنبيه',
+                                                         'انتهى وقت المسابقة');
+                                                   }
                                                   },
                                                 ),
                                                 TextButton(
@@ -497,43 +530,63 @@ class _CompettitionDetailsState extends State<CompettitionDetails> {
                                           },
                                         );
                                       },
-                                      child: Text('Enroll')):ElevatedButton(
+                                      child: Text('Enroll'))
+                                  : ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor:
-                                          widget.date == formattedDate
-                                              ? Colors.black38
-                                              : Colors.grey,
+                                              date2.isBefore(date1)
+                                                  ? Colors.grey
+                                                  : Colors.black38,
                                           maximumSize: Size(200, 100),
                                           fixedSize: Size(160, 30),
                                           minimumSize: Size(20, 40)),
-                                      onPressed: () {
+                                      onPressed: () async{
+                                        if(date2.isAfter(date1)){
+                                        bool isJoined=false;
+                                     await   FirebaseFirestore.instance
+                                            .collection(widget.name)
+                                            .doc(CacheHelper.get(key: 'uid'))
+                                            .get()
+                                            .then((value) {
+                                          if (
+                                              value.exists) {
+                                             isJoined= true;
 
-                                        widget.date == formattedDate
-                                            ?
+                                          } else {
+                                            isJoined=false;
 
-                                        Get.to(QuizScreen(name: widget.name,list: widget.categories,))
-                                            : Get.snackbar(
-                                            '!تنبيه', 'لم تبدأ بعد');
+                                          }
+                                        });
+                                     if(isJoined==false){
+                                       Get.put(EnrollGetX()).onBeginQuiz(
+                                           widget.name,
+                                           widget.typeCoins,
+                                           widget.docId,
+                                           widget.r1,
+                                           widget.r2,
+                                           widget.r3,
+                                           widget.r4,
+                                           widget.r5,
+                                           widget.r6,
+                                           widget.r7,
+                                           widget.r8,
+                                           widget.r9,
+                                           widget.r10);
+                                       Get.to(QuizScreen(
+                                           name: widget.name,
+                                           list: widget.categories,
+                                           id: widget.docId));
+                                     }else{
+                                       Get.snackbar('!تنبيه',
+                                           'لقد انضميت من قبل بالفعل');
+                                     }}else{
+                                          Get.snackbar('!تنبيه',
+                                              'لم تبدأ بعد');
+                                        }
+
                                       },
-                                      child: const Text('Start'))
-                                )
-
-                          // Padding(
-                          //   padding:
-                          //       EdgeInsets.only(left: 20, top: 20, bottom: 10),
-                          //   child: Text(
-                          //     'More Challengs',
-                          //     textAlign: TextAlign.start,
-                          //     style: TextStyle(
-                          //         fontSize: 18,
-                          //         fontFamily: 'Arial',
-                          //         fontWeight: FontWeight.normal,
-                          //         decoration: TextDecoration.none,
-                          //         color: Colors.white),
-                          //   ),
-                          // ),
-                          // CompetitionWidget(),
-                          ,const SizedBox(
+                                      child: const Text('Start'))),
+                          const SizedBox(
                             height: 20,
                           )
                         ],

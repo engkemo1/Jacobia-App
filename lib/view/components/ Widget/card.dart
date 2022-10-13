@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jacobia/constants.dart';
 
 import '../animation.dart';
 
@@ -27,8 +28,8 @@ class iconswidget extends StatelessWidget {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                      color:  color, // 0xFF17334E
-                      borderRadius: BorderRadius.circular(40.0)
+                      color:  Colors.black12,
+                    shape: BoxShape.rectangle// 0xFF17334E
                   ),
                   child:child
               ),

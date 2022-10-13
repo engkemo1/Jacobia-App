@@ -61,10 +61,19 @@ dependencies:
   supercharged: ^2.1.1
   date_count_down: ^2.1.0
   random_string:
+  firebase_storage:
+  slide_countdown: ^0.3.4
+  awesome_dialog:
+  path:
 dev_dependencies:
+  flutter_launcher_icons: "^0.10.0"
+
   flutter_test:
     sdk: flutter
-
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/logo.png"
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

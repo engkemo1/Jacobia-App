@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/index.dart';
 import 'package:get/get.dart';
-import 'package:jacobia/view/components/component.dart';
 import 'package:jacobia/view_model/AuthGetX/AuthController.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../constants.dart';
 import '../../../view_model/database/local/cache_helper.dart';
 import '../../components/ Widget/CompettionWidget.dart';
-import '../../components/ Widget/FinishedRaces.dart';
-import '../../components/ Widget/JoinedRaces.dart';
-import 'compettitionDetails.dart';
 
 class Competition extends StatelessWidget {
   var auth = Get.put(AuthController());
@@ -45,9 +38,14 @@ class Competition extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
+                            CacheHelper.get(key: 'imageUrl')==null?
                             CircleAvatar(
                               backgroundImage:
-                                  AssetImage('assets/images/man.png'),
+                              AssetImage('assets/icons/logo.png'),
+                              radius: 30,
+                            ):CircleAvatar(
+                              backgroundImage:
+                              NetworkImage(CacheHelper.get(key: 'imageUrl')),
                               radius: 30,
                             ),
                             SizedBox(
@@ -56,7 +54,7 @@ class Competition extends StatelessWidget {
                             Column(
                               children: [
                                 Text(
-                                  CacheHelper.get(key: 'name').toString(),
+                            CacheHelper.get(key: 'name')==null ?'': CacheHelper.get(key: 'name').toString(),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 17,
@@ -133,58 +131,73 @@ class Competition extends StatelessWidget {
                         topRight: Radius.circular(50))),
                 child: Padding(
                   padding: const EdgeInsets.only(top: 15.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 10,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      // Padding(
+                      //   padding:
+                      //       EdgeInsets.only(left: 20, top: 20, right: 20),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.end,
+                      //     children: [
+                      //       Text(
+                      //         'المسابقات المنضمة',
+                      //         style: TextStyle(
+                      //             fontSize: 20,
+                      //             fontWeight: FontWeight.bold,
+                      //             color: Colors.white),
+                      //         textAlign: TextAlign.end,
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
+                      // StreamBuilder<Object>(
+                      //     stream: FirebaseFirestore.instance
+                      //         .collection('users')
+                      //         .doc(CacheHelper.get(key: 'uid'))
+                      //         .collection('enrolled').snapshots(),
+                      //     builder: (context,AsyncSnapshot snapshot) {
+                      //       if(snapshot.connectionState==ConnectionState.waiting){
+                      //         return Center(child: CircularProgressIndicator(),);
+                      //       }else if(snapshot.data==null){
+                      //         return Center(child: Text('لا يوجد مسابقات منضمه'),);
+                      //
+                      //       }else
+                      //       return SizedBox(
+                      //         height: 150,
+                      //         child: ListView.builder(
+                      //           scrollDirection: Axis.vertical,
+                      //           itemCount:0,
+                      //           itemBuilder: (context,index) {
+                      //             return JoinedRacesWidget(docid:snapshot.data.docs[index]['id']);
+                      //           }
+                      //         ),
+                      //       );
+                      //     }),
+
+                      Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              'المسابقات',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                              textAlign: TextAlign.end,
+                            )
+                          ],
                         ),
-                        Padding(
-                          padding:
-                              EdgeInsets.only(left: 20, top: 20, right: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                'المسابقات المنضمة',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                                textAlign: TextAlign.end,
-                              )
-                            ],
-                          ),
-                        ),
-                        JoinedRacesWidget(),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 20, right: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                'المسابقات',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                                textAlign: TextAlign.end,
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 400,
-                          child: CompetitionWidget(),
-                        ),
-                        SizedBox(
-                          height: 200,
-                        )
-                      ],
-                    ),
+                      ),
+                      Expanded(
+                        child: CompetitionWidget(),
+                      ),
+
+                    ],
                   ),
                 ),
               ),

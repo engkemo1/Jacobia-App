@@ -9,12 +9,11 @@ networkImageCustom(
     double? borderRadius = 8,}) {
   return Container(
     clipBehavior: Clip.antiAliasWithSaveLayer,
-    width: width?.w,
-    height: height?.h,
+    width: width,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(borderRadius!),
     ),
     child: FadeInImage.assetNetwork(
-        placeholder: 'assets/images/loading.png', image: url!, fit: fit),
+        placeholder: 'assets/images/placeholder.jpg', image: url!, fit: fit),
   );
 }

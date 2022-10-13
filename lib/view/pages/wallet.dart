@@ -6,20 +6,20 @@ import 'package:jacobia/view_model/CodeGetx.dart';
 import '../../constants.dart';
 import '../../model/card/card.dart';
 import '../../view_model/database/local/cache_helper.dart';
+import '../components/ Widget/DropDownWidget.dart';
 import '../components/ Widget/card.dart';
 import '../components/animation.dart';
 
-class Wallet extends StatefulWidget {
-  @override
-  State<Wallet> createState() => _WalletState();
-}
+class Wallet extends GetView<CodesGetX> {
+  final _formKey = GlobalKey<FormState>();
 
-var codeController = TextEditingController();
-var user = FirebaseFirestore.instance
-    .collection('users')
-    .doc(CacheHelper.get(key: 'uid'));
+  var user = FirebaseFirestore.instance
+      .collection('users')
+      .doc(CacheHelper.get(key: 'uid'));
 
-class _WalletState extends State<Wallet> {
+  TextEditingController typeCoins=TextEditingController();
+  String typeCoin = 'None';
+  List<String> coinsList = ['redCoins', 'greenCoins', 'yellowCoins',];
   @override
   Widget build(BuildContext context) {
     var we = MediaQuery.of(context).size.width;
@@ -53,9 +53,14 @@ class _WalletState extends State<Wallet> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            const CircleAvatar(
+                            CacheHelper.get(key: 'imageUrl')==null?
+                            CircleAvatar(
                               backgroundImage:
-                                  AssetImage('assets/images/man.png'),
+                              AssetImage('assets/icons/logo.png'),
+                              radius: 30,
+                            ):CircleAvatar(
+                              backgroundImage:
+                              NetworkImage(CacheHelper.get(key: 'imageUrl')),
                               radius: 30,
                             ),
                             const SizedBox(
@@ -161,12 +166,13 @@ class _WalletState extends State<Wallet> {
                                 title: "ايداع",
                                 color: const Color(0xFF411C2E),
                                 delayanimation: 1.7,
-                                child: IconButton(
-                                  onPressed: () {
+                                child: InkWell(
+                                  onTap: () {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
+                                            backgroundColor: Colors.black45,
                                             titlePadding: EdgeInsets.all(0),
                                             title: Align(
                                               alignment: Alignment.topRight,
@@ -183,18 +189,18 @@ class _WalletState extends State<Wallet> {
                                                 borderRadius:
                                                     BorderRadius.circular(20)),
                                             content: Container(
-                                              height: 200,
+                                              height: 250,
                                               width: 220,
                                               decoration: BoxDecoration(),
                                               child: Column(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                    MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   const Text(
-                                                    "ادخل الكود عشان تحصل على الشحن",
+                                                    "قم بادخال كود البطاقة للحصول على رصيدك من العملات",
                                                     style: TextStyle(
                                                         fontFamily: 'Roboto',
-                                                        color: Colors.black,
+                                                        color: Colors.white,
                                                         fontSize: 18,
                                                         fontWeight:
                                                             FontWeight.w600),
@@ -210,11 +216,12 @@ class _WalletState extends State<Wallet> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10.0),
-                                                      color: Colors.black12,
+                                                      color: Colors.white,
                                                     ),
                                                     child: TextFormField(
                                                       controller:
-                                                          codeController,
+                                                          controller.codeController,
+                                                      obscureText: true,
                                                       decoration:
                                                           const InputDecoration(
                                                         contentPadding:
@@ -222,6 +229,7 @@ class _WalletState extends State<Wallet> {
                                                         enabledBorder:
                                                             InputBorder.none,
                                                         hintText: 'xxxxxxx',
+                                                            helperStyle: TextStyle(color: Colors.white)
                                                       ),
                                                     ),
                                                   ),
@@ -230,11 +238,9 @@ class _WalletState extends State<Wallet> {
                                                   ),
                                                   GestureDetector(
                                                     onTap: () async {
-                                                      code.checkCode(
+                                                      controller.checkCode(
                                                           context,
-                                                          int.tryParse(
-                                                              codeController
-                                                                  .text)!);
+                                                      );
                                                     },
                                                     child: Container(
                                                         width: 200.0,
@@ -245,7 +251,7 @@ class _WalletState extends State<Wallet> {
                                                                     .circular(
                                                                         10.0),
                                                             color:
-                                                                secondaryColor),
+                                                                Colors.greenAccent),
                                                         child: const Center(
                                                           child: Text(
                                                             "Submit",
@@ -269,8 +275,8 @@ class _WalletState extends State<Wallet> {
                                           );
                                         });
                                   },
-                                  icon: const Icon(Icons.payments),
-                                  color: Colors.red,
+                                  child:  Image.asset('assets/icons/deposit.jpeg'),
+
                                 )),
                             SizedBox(
                               width: we * 0.03,
@@ -279,67 +285,103 @@ class _WalletState extends State<Wallet> {
                                 title: "سحب",
                                 color: const Color(0xFF411C2E),
                                 delayanimation: 1.9,
-                                child: IconButton(
-                                  onPressed: () {
+                                child: InkWell(
+                                  onTap: () {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
                                             titlePadding: EdgeInsets.all(0),
-                                            title: Align(
-                                              alignment: Alignment.topRight,
-                                              child: Padding(
-                                                padding: EdgeInsets.all(0),
-                                                child: IconButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    icon: Icon(Icons.close)),
-                                              ),
-                                            ),
+                                            backgroundColor: Colors.black45,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(20)),
-                                            content: Container(
-                                              height: 100,
-                                              width: 130,
-                                              decoration: BoxDecoration(),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "......في انتظار الموافقه",
-                                                    style: TextStyle(
-                                                        fontFamily: 'Roboto',
-                                                        color: Colors.black,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    "سيتم التواصل معك",
-                                                    style: TextStyle(
-                                                        fontFamily: 'Roboto',
-                                                        color: Colors.black,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
+                                            content: SizedBox(
+                                              height: 350,
+                                              child: Form(
+                                          key: _formKey,
+                                          child: Column
+                                          (
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+
+                                          SizedBox(height: 10,),
+                                          InputField(
+
+                                          isEnabled: false,
+                                          hint: '${typeCoin.toString()}',
+                                          controller: typeCoins,
+
+                                          label: 'Select Coins',
+                                          iconOrdrop: 'drop',
+                                          widget: DropdownButton(
+                                          items: coinsList
+                                                .map<DropdownMenuItem<String>>(
+                                          (value) =>
+                                          DropdownMenuItem<String>(
+                                          value: value.toString(),
+                                          child: Text(
+                                          '$value',
+                                          style: TextStyle(
+                                          color:
+                                          Colors.black),
+                                          )))
+                                                .toList(),
+                                          icon: Icon(
+                                          Icons.keyboard_arrow_down,
+                                          color: Colors.white,
+                                          ),
+                                          iconSize: 20,
+                                          underline: Container(
+                                          height: 0,
+                                          ),
+                                          onChanged: (String? newValue) {
+                                          typeCoins.text = newValue!;
+                                          controller.typeCoins= newValue;
+
+                                          },
+                                          ),
+                                          texth: 15,
+                                          ),
+
+                                          SizedBox(height: 20,),
+                                              InputField(controller: controller.priceController,
+                                                  label: 'Price',
+                                                  textInputType: TextInputType.number,
+
+                                                  hint: 'Enter Code Price',
+                                                  iconOrdrop: 'icon',
+                                                  isEnabled: true,
+                                                  texth: 15),
+                                              SizedBox(height: 20,),
+
+                                              SizedBox(
+
+                                          width: 150, child: ElevatedButton(onPressed: () async{
+
+                                          if (_formKey.currentState!.validate()){
+                                           await controller.request();
+                                          }
+
+                                                              }, child: Text(
+                                          'Save'
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                          primary: Colors.greenAccent
+                                          ),
+                                          ),
+                                          )
+
+
+                                          ],
+                                          ),
+                                          ),
+                                            ));
                                         });
                                   },
-                                  icon: Icon(
-                                    Icons.payment,
-                                    color: Colors.red,
+                                  child: Image.asset(
+                                    'assets/icons/withdaraw.jpeg'
                                   ),
                                 )),
                             SizedBox(width: we * 0.03),
@@ -350,36 +392,45 @@ class _WalletState extends State<Wallet> {
                         ),
 
                         // histories from wallet  ..  //
-                        historywallet(
-                          images: 'assets/icons/dyr.png',
-                          title: "العمله حمراء",
-                          money: CacheHelper.get(key: 'redCoins') == null
-                              ? '0'
-                              : CacheHelper.get(key: 'redCoins').toString(),
-                          name: 'عمله سوريه',
-                        ),
-                        SizedBox(
-                          height: he * 0.02,
-                        ),
-                        historywallet(
-                          images: "assets/icons/lep.png",
-                          title: "العمله الخضراء",
-                          money: CacheHelper.get(key: 'greenCoins') == null
-                              ? '0'
-                              : CacheHelper.get(key: 'greenCoins').toString(),
-                          name: 'عمله لبنان',
-                        ),
-                        SizedBox(
-                          height: he * 0.02,
-                        ),
-                        historywallet(
-                          images: "assets/icons/egp.png",
-                          title: "العمله صفراء",
-                          money: CacheHelper.get(key: 'yellowCoins') == null
-                              ? '0'
-                              : CacheHelper.get(key: 'yellowCoins').toString(),
-                          name: 'عمله مصريه',
-                        ),
+                        StreamBuilder(
+                          stream: FirebaseFirestore.instance.collection('users').where('email',isEqualTo: CacheHelper.get(key: 'email')).snapshots(),
+                            builder: (context, AsyncSnapshot snapshot){
+                          if(snapshot.connectionState==ConnectionState.waiting){
+                            return Center(child: CircularProgressIndicator.adaptive(),);
+                          }else{
+                           var snap=snapshot.data.docs;
+                            return                       Column(
+                              children: [
+                                historywallet(
+                                  images: 'assets/icons/dyr.png',
+                                  title: "العملة حمراء",
+                                  money:snap[0]['redCoins'].toString(),
+                                  name: 'عملة سورية',
+                                ),
+                                SizedBox(
+                                  height: he * 0.02,
+                                ),
+                                historywallet(
+                                  images: "assets/icons/lep.png",
+                                  title: "العملة الخضراء",
+                                  money: snap[0]['greenCoins'].toString(),
+                                  name: 'عملة لبنان',
+                                ),
+                                SizedBox(
+                                  height: he * 0.02,
+                                ),
+                                historywallet(
+                                  images: "assets/icons/egp.png",
+                                  title: "العملة صفراء",
+                                  money: snap[0]['yellowCoins'].toString(),
+                                  name: 'عملة مصر',
+                                ),
+                              ],
+                            );
+
+                          }
+
+                        })
                       ],
                     ),
                   ),
@@ -392,6 +443,7 @@ class _WalletState extends State<Wallet> {
     );
   }
 }
+
 
 class swipercard extends StatelessWidget {
   const swipercard({Key? key}) : super(key: key);

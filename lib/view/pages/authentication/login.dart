@@ -26,24 +26,32 @@ class SignIn extends StatelessWidget {
             Container(
               height: 210,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 35),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: const [
-                  /// LOGIN TEXT
-                  Text(
-                    'تسجبل الدخول',
-                    style: TextStyle(color: Colors.white, fontSize: 32.5),
-                    textAlign: TextAlign.end,
-                  ),
-                  SizedBox(height: 7.5),
+                children:  [
+                  Image.asset('assets/icons/logo.png',height: MediaQuery.of(context).size.height*0.3,width: MediaQuery.of(context).size.width*0.3,),
+
+                  Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    /// LOGIN TEXT
+                    Text(
+                      'تسجيل الدخول',
+                      style: TextStyle(color: Colors.white, fontSize: 25.5),
+                      textAlign: TextAlign.end,
+                    ),
+                    SizedBox(height: 7.5),
+
+                    Text(
+                      'مرحبا بعودتك',
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                      textAlign: TextAlign.end,
+                    ),],
+                ),
 
                   /// WELCOME
-                  Text(
-                    'مرحبا بعودتك',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                    textAlign: TextAlign.end,
-                  ),
+
                 ],
               ),
             ),

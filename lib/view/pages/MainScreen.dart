@@ -18,16 +18,16 @@ import '../../view_model/Cubit/BottomNavBarCubit/BottomNavBarState.dart';
       child: BlocConsumer<BottomNavBarCubit,MainState>(listener: (BuildContext context, state) {  }, builder: (BuildContext context, Object? state) { return Scaffold(
         body: BottomNavBarCubit.get(context).screenList[BottomNavBarCubit.get(context).index],
         bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.shifting,
+          type: BottomNavigationBarType.fixed,
 
           currentIndex: BottomNavBarCubit.get(context).index,
           items: [
             buildBottomNavigationBarItem(
                 Icon(FontAwesomeIcons.trophy,color: secondaryColor,), Text('المسابقات',style: TextStyle(fontSize: 17,color: primaryColor,fontWeight: FontWeight.bold),)),
             buildBottomNavigationBarItem(
-                Icon(FontAwesomeIcons.accusoft,color: secondaryColor,), Text('اعلانات',style: TextStyle(fontSize: 17,color: primaryColor,fontWeight: FontWeight.bold))),
+                Icon(FontAwesomeIcons.accusoft,color: secondaryColor,), Text('النتائج',style: TextStyle(fontSize: 17,color: primaryColor,fontWeight: FontWeight.bold))),
             buildBottomNavigationBarItem(
-                Icon(Icons.person_outline,color: secondaryColor,), Text('الملف الشخصي',style: TextStyle(fontSize: 17,color: primaryColor,fontWeight: FontWeight.bold))),
+                Icon(Icons.person,color: secondaryColor,), Text('الملف الشخصي',style: TextStyle(fontSize: 17,color: primaryColor,fontWeight: FontWeight.bold))),
             buildBottomNavigationBarItem(
                 Icon(FontAwesomeIcons.wallet,color: secondaryColor,), Text('المحفظه',style: TextStyle(fontSize: 17,color: primaryColor,fontWeight: FontWeight.bold),)),
           ],

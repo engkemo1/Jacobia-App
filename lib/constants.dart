@@ -29,7 +29,7 @@ bool connected = true;
 const kColor = Color(0xff53FBDD);
 const double kDefaultPadding = 20.0;
 
-const newVv = LinearGradient(
+  const newVv = LinearGradient(
   begin: Alignment(0.0, -1.0),
   end: Alignment(0.0, 1.0),
   colors: [gray, grayTwo, grayText],

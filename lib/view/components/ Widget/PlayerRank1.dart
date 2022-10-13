@@ -1,25 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class PlayerRank1 extends StatelessWidget {
-  const PlayerRank1({Key? key}) : super(key: key);
+  final String image;
+  final String name;
+  final String prize;
+  final String score;
+  final String quizName;
+
+  const PlayerRank1({Key? key, required this.image, required this.name, required this.prize, required this.score, required this.quizName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return                       Container(
-      margin: EdgeInsets.only(left: 20,right: 20),
-      height: 300,
+
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+            color: Colors.black26
+      ),
+      margin: EdgeInsets.only(left: 20,right: 20,top: 50,bottom: 40),
+      padding: EdgeInsets.symmetric(vertical: 5),
+      height: 250,
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
           ClipRRect(
-            child: Image.asset(
-              'assets/images/man2.jpg',
+            child: Image.network(
+              image,
               fit: BoxFit.contain,
             ),
             borderRadius: BorderRadius.circular(20),
           ),
           Align(
-            alignment: Alignment(-0.9, -0.7),
+            alignment: Alignment(-1, -1),
             child: Container(
               height: 30,
               width: 130,
@@ -28,9 +40,9 @@ class PlayerRank1 extends StatelessWidget {
                   color: Colors.white),
               child: Center(
                 child: Text(
-                  'kamal magdy',
+                  name,
                   style: TextStyle(
-                    fontFamily: 'roboto',
+
                       fontWeight: FontWeight.normal,
                       fontSize: 13,
                       color: Colors.black,
@@ -40,8 +52,9 @@ class PlayerRank1 extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: Alignment(1, 0.8),
+            alignment: Alignment(1, 1),
             child: Container(
+
               height: 40,
               width: 150,
               decoration: BoxDecoration(
@@ -59,7 +72,7 @@ class PlayerRank1 extends StatelessWidget {
                             BorderRadius.circular(10),
                             color: Colors.black12),
                         child: Text(
-                          'رياضيات',
+                          score,
                           style: TextStyle(
                               fontSize: 10,
                               fontFamily: 'roboto',
@@ -75,7 +88,7 @@ class PlayerRank1 extends StatelessWidget {
                             BorderRadius.circular(10),
                             color: Colors.black12),
                         child: Text(
-                          'LastStanding',
+                          quizName,
                           style: TextStyle(
                               fontSize: 10,
                               color: Colors.black,
@@ -87,7 +100,8 @@ class PlayerRank1 extends StatelessWidget {
                   )),
             ),
           ),
-          Rank()
+          Rank(),
+
 
         ],
       ),
@@ -99,7 +113,7 @@ class PlayerRank1 extends StatelessWidget {
 Widget Rank(){
 
   return              Align(
-    alignment: Alignment(-0.9, 0.7),
+    alignment: Alignment(-0.9, 1.4),
     child: Container(
       height: 80,
       width: 70,

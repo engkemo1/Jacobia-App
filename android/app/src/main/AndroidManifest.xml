@@ -1,10 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.jacobia">
-   <application
-        android:label="jacobia"
+    package="com.app.jacobia">
+    <uses-permission android:name="android.permission.INTERNET"/> <!-- Add this -->
+
+    <application
+
+    android:label="Jacobia"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
+
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
@@ -30,5 +34,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
     </application>
 </manifest>

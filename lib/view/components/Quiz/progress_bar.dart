@@ -6,7 +6,6 @@ import '../../../constants.dart';
 import '../../../view_model/question_controller.dart';
 
 class ProgressBar extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +27,8 @@ class ProgressBar extends StatelessWidget {
                   // from 0 to 1 it takes 60s
                   width: constraints.maxWidth * controller.animation!.value,
                   decoration: BoxDecoration(
-color: Colors.grey,                    borderRadius: BorderRadius.circular(50),
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(50),
                   ),
                 ),
               ),
@@ -40,7 +40,9 @@ color: Colors.grey,                    borderRadius: BorderRadius.circular(50),
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("${(controller.animation!.value * 60).round()} sec"),
-                      SvgPicture.asset("assets/images/clock.svg",),
+                      SvgPicture.asset(
+                        "assets/images/clock.svg",
+                      ),
                     ],
                   ),
                 ),

@@ -11,6 +11,10 @@ class CodesGetX extends GetxController with SingleGetTickerProviderMixin {
   var docid;
 
   int? red, yellow, green;
+  String typeCoins='none';
+  int? withdrawal;
+   TextEditingController priceController = TextEditingController();
+  TextEditingController codeController = TextEditingController();
 
   // getCode(int code) async {
   //   var codes = FirebaseFirestore.instance
@@ -28,6 +32,16 @@ class CodesGetX extends GetxController with SingleGetTickerProviderMixin {
   //   return codeList;
   // }
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+      super.onInit();
+  }
+void delete(String id)async{
+
+ await FirebaseFirestore.instance.collection('quiz').doc(id).delete();
+update();
+}
   updateApplied(
     bool applied,
   ) async {
@@ -37,13 +51,13 @@ class CodesGetX extends GetxController with SingleGetTickerProviderMixin {
         .update({'applied': applied});
   }
 
-  checkCode(BuildContext context, int code) async {
+  checkCode(BuildContext context) async {
     print(CacheHelper.get(key: 'redCoins').toString());
 
     List<Code> codeList = [];
     var codes = FirebaseFirestore.instance
         .collection('codes')
-        .where('code', isEqualTo: code);
+        .where('code', isEqualTo: codeController.text.toString());
     var question = await codes.get();
 
     question.docs.forEach((element) {
@@ -91,10 +105,24 @@ class CodesGetX extends GetxController with SingleGetTickerProviderMixin {
 
           Get.defaultDialog(title: '', content: Text('تمت العمليه بنجاح'));
         } else {
-          Get.defaultDialog(title: '', content: Text('الكود غبر صحيح'));
+          Get.defaultDialog(title: '', content: Text('الكود غير صحيح'));
         }
       }
     } else
-      Get.defaultDialog(title: '', content: Text('الكود غبر صحيح'));
+      Get.defaultDialog(title: '', content: Text('الكود غير صحيح'));
+  }
+
+  request()async{
+  await  FirebaseFirestore.instance.collection('requests').doc(CacheHelper.get(key: 'uid')).set({
+      'name':CacheHelper.get(key: 'name'),
+      'phone':CacheHelper.get(key: 'phone'),
+      'uid':CacheHelper.get(key: 'uid'),
+       'withdrawal':priceController.text,
+    'typeCoins':typeCoins,
+    'redCoins':CacheHelper.get(key: 'redCoins'),
+    'greenCoins':CacheHelper.get(key: 'greenCoins'),
+    'yellowCoins':CacheHelper.get(key: 'yellowCoins'),
+
+    }).then((value) => Get.snackbar('كيف حالك', 'لقد تم ارسال الطلب في انتظار الموافقه',duration: Duration(seconds: 5)));
   }
 }

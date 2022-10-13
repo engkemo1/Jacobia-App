@@ -2,13 +2,12 @@ class Option {
   int? answer;
   String? type;
 
-  List? selected;
+  String? selected;
   String? option1;
   String? option2;
   String? option3;
   String? option4;
   String? option5;
-
   String? question;
 
   Option(
@@ -38,7 +37,7 @@ class trueFalse {
   int? answer;
   String? type;
 
-  List? selected;
+  String? selected;
 
   String? question;
 

@@ -1,4 +1,4 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jacobia/view/components/component.dart';
@@ -26,188 +26,178 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return  Container(
-                  decoration:DecorationProperties.leaderboardBackgroundDecoration,
-
-                  child: Scaffold(
-                    appBar: AppBar(
-                      backgroundColor: Colors.black12,
-                      leading:   IconButton(onPressed: (){navigatorAndRemove(context, MainScreen());
-
-                      }, icon:Icon(Icons.arrow_back_ios_new,color: primaryColor,)),
-
-                    ),
-                    backgroundColor: Colors.transparent,
-                    body: Padding(
-                      padding: const EdgeInsets.only(top: 30),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 20,),
-                          Expanded(
-                            flex: 4,
-                            child: Stack(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FirstPlayer(names, scores, avatar)
-                                  ],
-                                ),
-                                Positioned(
-                                  top: 100,
-                                  left: .0,
-                                  right: .0,
-                                  child: Row(
-                                    children: [
-                                      Spacer(),
-                                      SecondPlayer(names, scores, avatar),
-                                      Spacer(
-                                        flex: 2,
-                                      ),
-                                      ThirdPlayer(names, scores, avatar),
-                                      Spacer(),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  gradient: mainGradient,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30))),
-                              width: MediaQuery.of(context).size.width,
-                              height: 68,
-                              child: Row(
-                                children: [
-                                  Spacer(),
-                                  Text(
-                                    '3'
-                                  ),
-                                  Spacer(),
-                                  CircleAvatar(
-                                    radius: 27,
-                                    backgroundColor: Color(0xffA6BAFC),
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.transparent,
-                                      child: Image.asset(
-'assets/images/man.png'
-                                      ),
-                                      radius: 21,
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Text(
-                                    "Hema",
-                                    style: GoogleFonts.openSans(
-                                        color: Color(0xffE8E8E8),
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 20),
-                                  ),
-                                  Spacer(
-                                    flex: 5,
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                    '50')
-                                  ),
-                                  Spacer(),
-                                ],
+    return Container(
+      decoration: DecorationProperties.leaderboardBackgroundDecoration,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black12,
+          leading: IconButton(
+              onPressed: () {
+                navigatorAndRemove(context, MainScreen());
+              },
+              icon: Icon(
+                Icons.arrow_back_ios_new,
+                color: primaryColor,
+              )),
+        ),
+        backgroundColor: Colors.transparent,
+        body: StreamBuilder<Object>(
+          stream: FirebaseFirestore.instance.collection('').snapshots(),
+          builder: (context, snapshot) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Stack(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [FirstPlayer(names, scores, avatar)],
+                        ),
+                        Positioned(
+                          top: 100,
+                          left: .0,
+                          right: .0,
+                          child: Row(
+                            children: [
+                              Spacer(),
+                              SecondPlayer(names, scores, avatar),
+                              Spacer(
+                                flex: 2,
                               ),
+                              ThirdPlayer(names, scores, avatar),
+                              Spacer(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          gradient: mainGradient,
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      width: MediaQuery.of(context).size.width,
+                      height: 68,
+                      child: Row(
+                        children: [
+                          Spacer(),
+                          Text('3'),
+                          Spacer(),
+                          CircleAvatar(
+                            radius: 27,
+                            backgroundColor: Color(0xffA6BAFC),
+                            child: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              child: Image.asset('assets/images/man.png'),
+                              radius: 21,
                             ),
                           ),
-                          SizedBox(
-                            height: 10,
+                          Spacer(),
+                          Text(
+                            "Hema",
+                            style: GoogleFonts.openSans(
+                                color: Color(0xffE8E8E8),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20),
                           ),
-                          Expanded(
-                            flex: 3,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: 3,
-                              itemBuilder: (BuildContext context, int index) {
-
-
-                                return Column(
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 68,
-                                      color: Color(0xff060718).withOpacity(0.8),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20, right: 20),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                  '#${(index + 4).toString()}',
-                                                  style: TextStyle(color: Colors.white),
-
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                ),
-                                                CircleAvatar(
-                                                  radius: 27,
-                                                  backgroundColor:
-                                                      Color(0xffA6BAFC),
-                                                  child: CircleAvatar(
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    child: Image.asset('assets/images/man.png'),
-                                                    radius: 21,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                ),
-                                                Text("kemo",
-                                                  style: TextStyle(color: Colors.white),
-
-                                                ),
-                                              ],
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 10),
-                                              child: Text(
-                                                "100",
-style: TextStyle(color: Colors.white),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
+                          Spacer(
+                            flex: 5,
                           ),
+                          Align(
+                              alignment: Alignment.centerRight, child: Text('50')),
+                          Spacer(),
                         ],
                       ),
                     ),
                   ),
-                );
-
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 3,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 68,
+                              color: Color(0xff060718).withOpacity(0.8),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20, right: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          '#${(index + 4).toString()}',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        CircleAvatar(
+                                          radius: 27,
+                                          backgroundColor: Color(0xffA6BAFC),
+                                          child: CircleAvatar(
+                                            backgroundColor: Colors.transparent,
+                                            child: Image.asset(
+                                                'assets/images/man.png'),
+                                            radius: 21,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(
+                                          "kemo",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: Text(
+                                        "100",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        ),
+      ),
+    );
   }
 }
 
@@ -253,7 +243,8 @@ Expanded FirstPlayer(names, scores, avatar) {
           ],
         ),
         Text(
-'kemo',          style: GoogleFonts.openSans(
+          'kemo',
+          style: GoogleFonts.openSans(
               color: Color(0xffE8E8E8),
               fontWeight: FontWeight.w700,
               fontSize: 20),
@@ -311,7 +302,7 @@ Column ThirdPlayer(names, scores, avatar) {
         ],
       ),
       Text(
-       'Hema',
+        'Hema',
         style: GoogleFonts.openSans(
             color: Color(0xffE8E8E8),
             fontWeight: FontWeight.w700,
